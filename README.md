@@ -19,10 +19,11 @@ This is my contact page
 
 
 # Project Requirements
+- Setup Head
+    - Add Cloud Guy Logo
 - Setup Header
     - Fix Links
     - Remove ">"
-    - Add Cloud Guy Logo
     - Format Colors
 - Setup Flex Boxes
 - Setup Footer
