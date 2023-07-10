@@ -6,6 +6,7 @@
 
 header {
   width: 100%;
+  border-top: 2px solid black;
   border-bottom: 2px solid black;
   display:flex;
   justify-content: space-between;
@@ -40,8 +41,19 @@ nav a {
   font-family: 'Brush Script MT';
   font-size: 25px;
   letter-spacing: 5px;
+}
+
+nav a:link,
+nav a:visited {
   color: black;
 }
+
+nav a:hover {
+  color: white;
+} 
+
+
+
 
 
 
