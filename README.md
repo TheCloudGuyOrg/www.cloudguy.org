@@ -19,12 +19,6 @@ This is my contact page
 
 
 # Project Requirements
-- Setup Head
-    - Add Cloud Guy Logo
-- Setup Header
-    - Fix Links
-    - Remove ">"
-    - Format Colors
 - Setup Flex Boxes
 - Setup Footer
 
