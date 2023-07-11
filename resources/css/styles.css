@@ -6,12 +6,12 @@
 
 header {
   width: 100%;
-  border-top: 2px solid black;
-  border-bottom: 2px solid black;
+  border-top: 2px solid #081038;
+  border-bottom: 2px solid #081038;
   display:flex;
   justify-content: space-between;
   align-items: center;
-  background-color: rgb(87, 136, 159, 0.85);
+  background-color: #57889F;
 }
 
 header img {
@@ -25,7 +25,7 @@ header h1 {
   font-family: 'Brush Script MT';
   font-size: 65px;
   letter-spacing: 5px;
-  color: black;
+  color: #081038;
 }
  
 nav {
@@ -45,24 +45,24 @@ nav a {
 
 nav a:link,
 nav a:visited {
-  color: black;
+  color: #081038;
 }
 
 nav a:hover {
-  color: white;
+  color: #C7DFEB;
 } 
 
 footer {
   height: 50px;
   width: 100%;
-  border-top: 2px solid black;
-  border-bottom: 2px solid black;
+  border-top: 2px solid #081038;
+  border-bottom: 2px solid #081038;
   position: absolute;
   bottom: 0;
   display:flex;
   justify-content: center;
   align-items: center;
-  background-color: rgb(87, 136, 159, 0.85);
+  background-color: #57889F;
 }
 
 footer li {
@@ -77,10 +77,10 @@ footer a {
 
 footer a:link,
 footer a:visited {
-  color: black;
+  color: #081038;
 }
 
 footer a:hover {
-  color: white;
+  color: #C7DFEB;
 } 
 
