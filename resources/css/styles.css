@@ -59,26 +59,35 @@ nav a:hover {
 
 
 
-
-
-main {
-  position: fixed;
-  width: 100%;
-  display: flex;
-  padding-top: 150px;
-}
-
 footer {
-  position: fixed;
+  height: 50px;
   width: 100%;
-  display: flex;
-  padding-top: 300px;
+  border-top: 2px solid black;
+  border-bottom: 2px solid black;
+  position: absolute;
+  bottom: 0;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(87, 136, 159);
 }
 
 footer li {
   display: inline-block;
-  align-items: left;
+  padding: 10px;
   color: black;
 }
 
+footer a {
+  font-family: 'Trebuchet MS';
+}
+
+footer a:link,
+footer a:visited {
+  color: black;
+}
+
+footer a:hover {
+  color: white;
+} 
 
