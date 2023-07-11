@@ -11,7 +11,7 @@ header {
   display:flex;
   justify-content: space-between;
   align-items: center;
-  background-color: rgb(87, 136, 159);
+  background-color: rgb(87, 136, 159, 0.85);
 }
 
 header img {
@@ -62,7 +62,7 @@ footer {
   display:flex;
   justify-content: center;
   align-items: center;
-  background-color: rgb(87, 136, 159);
+  background-color: rgb(87, 136, 159, 0.85);
 }
 
 footer li {
