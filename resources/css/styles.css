@@ -13,6 +13,8 @@ header {
   border-top: 2px solid #081038;
   border-bottom: 2px solid #081038;
   display:flex;
+  position: fixed;
+  z-index: 2;
   justify-content: space-between;
   align-items: center;
   background-color: #57889F;
@@ -56,14 +58,23 @@ nav a:hover {
   color: #C7DFEB;
 } 
 
+main {
+  display:flex;
+  flex-direction: column;
+  position: relative;
+  z-index: 1;
+  padding: 150px;
+}
+
 footer {
   height: 50px;
   width: 100%;
   border-top: 2px solid #081038;
   border-bottom: 2px solid #081038;
-  position: absolute;
+  position: fixed;
   bottom: 0;
   display:flex;
+  z-index: 2;
   justify-content: center;
   align-items: center;
   background-color: #57889F;
