@@ -44,9 +44,8 @@ nav li {
 }
 
 nav a {
-  font-family: 'Brush Script MT';
-  font-size: 25px;
-  letter-spacing: 5px;
+  font-family: 'Comic Sans MS';
+  font-size: 20px;
 }
 
 nav a:link,
@@ -87,7 +86,7 @@ footer li {
 }
 
 footer a {
-  font-family: 'Verdana';
+  font-family: 'Comic Sans MS';
 }
 
 footer a:link,
