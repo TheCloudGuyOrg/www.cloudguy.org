@@ -44,8 +44,8 @@ nav li {
 }
 
 nav a {
-  font-family: 'Comic Sans MS';
-  font-size: 20px;
+  font-family: 'Bradley Hand';
+  font-size: 30px;
 }
 
 nav a:link,
@@ -86,7 +86,8 @@ footer li {
 }
 
 footer a {
-  font-family: 'Comic Sans MS';
+  font-family: 'Bradley Hand';
+  font-size: 20px;
 }
 
 footer a:link,
