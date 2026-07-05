@@ -2,16 +2,111 @@
    Home Page
    ========================================== */
 
-h2 {
+/* Hero */
+.hero {
+  text-align: center;
+  padding: 64px 24px;
+  background: linear-gradient(135deg, var(--color-primary-dark) 0%, var(--color-primary) 50%, var(--color-primary-light) 100%);
+  border-radius: 12px;
+  margin-bottom: 48px;
+}
+
+.hero-tagline {
   font-family: var(--font-display);
-  font-size: 36px;
+  font-size: 40px;
+  font-weight: 700;
+  color: var(--color-white);
+  margin-bottom: 12px;
+}
+
+.hero-sub {
+  font-size: 18px;
+  color: var(--color-text-light);
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* Bio */
+.bio {
+  margin-bottom: 48px;
+}
+
+.bio h3 {
+  font-family: var(--font-display);
+  font-size: 24px;
   font-weight: 700;
   color: var(--color-dark);
   margin-bottom: 12px;
 }
 
-p {
+.bio p {
   font-size: 16px;
   color: var(--color-gray);
-  line-height: 1.7;
+  line-height: 1.8;
+  max-width: 800px;
+}
+
+/* Card Grid */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 24px;
+  margin-bottom: 48px;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 28px 24px;
+  background-color: var(--color-white);
+  border: 1px solid transparent;
+  border-radius: 10px;
+  text-decoration: none;
+  color: var(--color-dark);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease;
+}
+
+.card:hover {
+  border-color: var(--color-primary-light);
+  box-shadow: 0 4px 16px rgba(30, 58, 95, 0.1);
+  transform: translateY(-2px);
+}
+
+.card svg {
+  color: var(--color-accent);
+}
+
+.card h4 {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--color-dark);
+}
+
+.card p {
+  font-size: 14px;
+  color: var(--color-gray);
+  line-height: 1.5;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .hero {
+    padding: 48px 20px;
+  }
+
+  .hero-tagline {
+    font-size: 28px;
+  }
+
+  .hero-sub {
+    font-size: 16px;
+  }
+
+  .card-grid {
+    grid-template-columns: 1fr;
+  }
 }
