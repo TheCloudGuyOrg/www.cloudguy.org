@@ -2,33 +2,278 @@
    Resume Page
    ========================================== */
 
-h2 {
+/* Header */
+.resume-header {
+  text-align: center;
+  margin-bottom: 48px;
+  padding-bottom: 32px;
+  border-bottom: 2px solid var(--color-border);
+}
+
+.resume-header h2 {
   font-family: var(--font-display);
-  font-size: 28px;
+  font-size: 36px;
   font-weight: 700;
   color: var(--color-dark);
-  margin-top: 32px;
-  margin-bottom: 16px;
+  margin-bottom: 8px;
 }
 
-h3 {
-  font-family: var(--font-display);
-  font-size: 20px;
-  font-weight: 500;
-  color: var(--color-primary-dark);
-  margin-top: 16px;
-  margin-bottom: 6px;
-}
-
-h4 {
-  font-size: 15px;
-  font-weight: 500;
+.resume-location {
+  font-size: 16px;
   color: var(--color-gray);
   margin-bottom: 4px;
 }
 
-p {
+.resume-contact {
+  font-size: 14px;
+  color: var(--color-gray);
+}
+
+/* Sections */
+.resume-section {
+  margin-bottom: 48px;
+}
+
+.resume-section h3 {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--color-primary);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 24px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--color-primary-light);
+}
+
+/* Employer */
+.resume-employer {
+  margin-bottom: 32px;
+}
+
+.employer-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.employer-header h4 {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--color-dark);
+}
+
+.employer-header .location {
+  font-size: 14px;
+  color: var(--color-gray);
+}
+
+.employer-header .dates {
+  margin-left: auto;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-primary-light);
+}
+
+/* Roles */
+.resume-role {
+  margin-bottom: 20px;
+  padding-left: 16px;
+  border-left: 2px solid var(--color-light);
+}
+
+.role-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.role-header h5 {
   font-size: 15px;
+  font-weight: 600;
+  color: var(--color-dark);
+}
+
+.role-header .dates {
+  margin-left: auto;
+  font-size: 13px;
+  color: var(--color-gray);
+}
+
+.resume-role ul {
+  list-style: none;
+  padding: 0;
+}
+
+.resume-role li {
+  position: relative;
+  padding-left: 16px;
+  font-size: 14px;
   color: var(--color-text);
-  line-height: 1.7;
+  line-height: 1.8;
+}
+
+.resume-role li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 10px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background-color: var(--color-primary-light);
+}
+
+/* Certifications */
+.cert-grid {
+  display: grid;
+  gap: 32px;
+}
+
+.cert-category h4 {
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--color-dark);
+  margin-bottom: 12px;
+}
+
+.cert-category ul {
+  list-style: none;
+  padding: 0;
+}
+
+.cert-category li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--color-light);
+  font-size: 14px;
+}
+
+.cert-name {
+  color: var(--color-text);
+}
+
+.cert-date {
+  color: var(--color-gray);
+  font-size: 13px;
+  white-space: nowrap;
+  margin-left: 16px;
+}
+
+/* Education */
+.resume-education {
+  margin-bottom: 24px;
+}
+
+.edu-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 4px;
+}
+
+.edu-header h4 {
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--color-dark);
+}
+
+.edu-header .dates {
+  margin-left: auto;
+  font-size: 13px;
+  color: var(--color-gray);
+}
+
+.edu-school {
+  font-size: 14px;
+  color: var(--color-gray);
+  margin-bottom: 8px;
+}
+
+.resume-education ul {
+  list-style: none;
+  padding: 0;
+}
+
+.resume-education li {
+  position: relative;
+  padding-left: 16px;
+  font-size: 14px;
+  color: var(--color-text);
+  line-height: 1.8;
+}
+
+.resume-education li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 10px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background-color: var(--color-primary-light);
+}
+
+/* Skills */
+.skills-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.skill-tag {
+  display: inline-block;
+  padding: 6px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-primary);
+  background-color: var(--color-white);
+  border: 1px solid var(--color-primary-light);
+  border-radius: 20px;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.skill-tag:hover {
+  background-color: var(--color-primary);
+  color: var(--color-white);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .employer-header,
+  .role-header,
+  .edu-header {
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .employer-header .dates,
+  .role-header .dates,
+  .edu-header .dates {
+    margin-left: 0;
+  }
+
+  .cert-category li {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+  }
+
+  .cert-date {
+    margin-left: 0;
+  }
+
+  .resume-header h2 {
+    font-size: 28px;
+  }
 }
