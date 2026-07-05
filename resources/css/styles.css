@@ -1,101 +1,295 @@
-*{
+/* ==========================================
+   Color Palette - The Cloud Guy
+   ========================================== */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;700&display=swap');
+
+:root {
+  /* Primary */
+  --color-primary: #1E3A5F;
+  --color-primary-dark: #0F2440;
+  --color-primary-light: #3D6B99;
+
+  /* Secondary */
+  --color-secondary: #4A90D9;
+  --color-secondary-light: #7AB3E8;
+
+  /* Neutrals */
+  --color-dark: #0B1929;
+  --color-gray: #64748B;
+  --color-light: #EEF4FA;
+  --color-white: #FFFFFF;
+
+  /* Accent */
+  --color-accent: #2563EB;
+
+  /* Borders */
+  --color-border: #132E4A;
+
+  /* Text */
+  --color-text: #0B1929;
+  --color-text-light: #E2ECF5;
+
+  /* Typography */
+  --font-display: 'Space Grotesk', sans-serif;
+  --font-body: 'Inter', sans-serif;
+
+  /* Layout */
+  --max-width: 1200px;
+  --header-height: 80px;
+}
+
+/* ==========================================
+   Reset & Base
+   ========================================== */
+* {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
-body {
-  background-color: rgb(148, 166, 174, .5);
+html {
+  scroll-behavior: smooth;
 }
 
-header {
+body {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  min-height: 100vh;
+  background-color: var(--color-light);
+  font-family: var(--font-body);
+  color: var(--color-text);
+  line-height: 1.6;
+}
+
+/* Utility */
+.container {
   width: 100%;
-  border-top: 2px solid #081038;
-  border-bottom: 2px solid #081038;
-  display:flex;
-  position: fixed;
-  z-index: 2;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* ==========================================
+   Header
+   ========================================== */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  width: 100%;
+  height: var(--header-height);
+  display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #57889F;
+  padding: 0 24px;
+  background-color: var(--color-primary);
+  border-bottom: 2px solid var(--color-border);
+  transition: height 0.3s ease, padding 0.3s ease;
+}
+
+header.scrolled {
+  height: 60px;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 1.5ch;
 }
 
 header img {
-  height: 100px;
-  width:100px;
-  margin: 5px;
+  height: 60px;
+  width: 60px;
+  border-radius: 6px;
+  transition: height 0.3s ease, width 0.3s ease;
+}
+
+header.scrolled img {
+  height: 40px;
+  width: 40px;
 }
 
 header h1 {
-  margin-right:300px;
-  font-family: 'Brush Script MT';
-  font-size: 65px;
-  letter-spacing: 5px;
-  color: #081038;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 32px;
+  letter-spacing: 1px;
+  color: var(--color-text-light);
+  white-space: nowrap;
+  transition: font-size 0.3s ease;
 }
- 
-nav {
-  margin-right: 25px;
+
+header.scrolled h1 {
+  font-size: 24px;
 }
-  
-nav li {
-  display: inline-flex;
-  margin-right: 25px;
+
+/* ==========================================
+   Navigation
+   ========================================== */
+nav ul {
+  display: flex;
+  gap: 32px;
+  list-style: none;
 }
 
 nav a {
-  font-family: 'Bradley Hand';
-  font-size: 30px;
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 15px;
+  text-decoration: none;
+  color: var(--color-text-light);
+  padding: 4px 0;
+  border-bottom: 2px solid transparent;
+  transition: color 0.2s ease, border-color 0.2s ease;
 }
 
-nav a:link,
-nav a:visited {
-  color: #081038;
+nav a:hover,
+nav a:focus {
+  color: var(--color-secondary-light);
+  border-bottom-color: var(--color-secondary-light);
 }
 
-nav a:hover {
-  color: #C7DFEB;
-} 
+/* Hamburger Button */
+.nav-toggle {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+}
 
-main {
-  display:flex;
-  flex-direction: column;
+.hamburger {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background-color: var(--color-text-light);
   position: relative;
-  z-index: 1;
-  padding: 150px;
+  transition: background-color 0.2s ease;
 }
 
-footer {
-  height: 50px;
+.hamburger::before,
+.hamburger::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  width: 24px;
+  height: 2px;
+  background-color: var(--color-text-light);
+  transition: transform 0.3s ease;
+}
+
+.hamburger::before {
+  top: -7px;
+}
+
+.hamburger::after {
+  top: 7px;
+}
+
+/* Hamburger open state */
+.nav-toggle[aria-expanded="true"] .hamburger {
+  background-color: transparent;
+}
+
+.nav-toggle[aria-expanded="true"] .hamburger::before {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.nav-toggle[aria-expanded="true"] .hamburger::after {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* ==========================================
+   Main Content
+   ========================================== */
+main {
   width: 100%;
-  border-top: 2px solid #081038;
-  border-bottom: 2px solid #081038;
-  position: fixed;
-  bottom: 0;
-  display:flex;
-  z-index: 2;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 48px 24px;
+}
+
+/* ==========================================
+   Footer
+   ========================================== */
+footer {
+  width: 100%;
+  padding: 24px 0;
+  background-color: var(--color-primary);
+  border-top: 2px solid var(--color-border);
+}
+
+footer .container {
+  display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #57889F;
 }
 
-footer li {
-  display: inline-block;
-  padding: 10px;
-  color: black;
+footer ul {
+  display: flex;
+  gap: 24px;
+  list-style: none;
 }
 
 footer a {
-  font-family: 'Bradley Hand';
-  font-size: 20px;
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 14px;
+  text-decoration: none;
+  color: var(--color-text-light);
+  transition: color 0.2s ease;
 }
 
-footer a:link,
-footer a:visited {
-  color: #081038;
+footer a:hover,
+footer a:focus {
+  color: var(--color-secondary-light);
 }
 
-footer a:hover {
-  color: #C7DFEB;
-} 
+/* ==========================================
+   Responsive - Tablet & Mobile
+   ========================================== */
+@media (max-width: 768px) {
+  :root {
+    --header-height: 64px;
+  }
 
+  .nav-toggle {
+    display: block;
+    z-index: 101;
+  }
+
+  nav {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 70%;
+    max-width: 300px;
+    height: 100vh;
+    background-color: var(--color-primary-dark);
+    padding: 100px 32px 32px;
+    transition: right 0.3s ease;
+    box-shadow: -4px 0 12px rgba(0, 0, 0, 0.3);
+  }
+
+  nav.open {
+    right: 0;
+  }
+
+  nav ul {
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  nav a {
+    font-size: 18px;
+  }
+
+  header h1 {
+    font-size: 24px;
+  }
+
+  header img {
+    height: 44px;
+    width: 44px;
+  }
+}

@@ -9,16 +9,21 @@
 
     <body>
         <header>
-            <img src="../images/TheCloudGuyLogo.jpg" alt="The Cloud Guy Logo">
-            <h1>The Cloud Guy</h1>
+            <div class="header-left">
+                <img src="../images/TheCloudGuyLogo.jpg" alt="The Cloud Guy Logo">
+                <h1>The Cloud Guy</h1>
+            </div>
+            <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+                <span class="hamburger"></span>
+            </button>
             <nav>
-                <ol>
-                    <li><a href="../../index.html">The Cloud Guy</a></li>
+                <ul>
+                    <li><a href="../../index.html">Home</a></li>
                     <li><a href="./resume.html">Resume</a></li>
-                    <li><a href="https://adobe.ly/3pTY7rE" target="_blank">Photography</a></li>
+                    <li><a href="./photography.html">Photography</a></li>
                     <li><a href="./blog.html">Blog</a></li>
                     <li><a href="./contact.html">Contact</a></li>
-                </ol>
+                </ul>
             </nav>
         </header>
 
@@ -30,12 +35,13 @@
         </main>
 
         <footer>
-            <div>
-                <ol>
+            <div class="container">
+                <ul>
                     <li><a href="https://github.com/TheCloudGuyOrg/www.cloudguy.org" target="_blank">GitHub</a></li>
                     <li><a href="https://www.linkedin.com/in/derek-ryan-cox/" target="_blank">LinkedIn</a></li>
-                </ol>
+                </ul>
             </div>
         </footer>
+        <script src="../js/main.js" defer></script>
     </body>
 </html>
