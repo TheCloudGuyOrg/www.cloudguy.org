@@ -1,0 +1,71 @@
+Datacenters: The Infrastructure Everyone Depends On but Few Understand
+Every time a new datacenter is proposed, the same concerns surface: water consumption, electricity demand, noise, and environmental impact. These are legitimate questions, and they deserve informed answers. Unfortunately, much of the public conversation is driven by misconceptions rather than firsthand experience.
+I've spent the last 25 years building, operating, and modernizing datacenters. In the late 2000s, I helped build Hewlett-Packard's datacenter off Rockrimmon Boulevard in Colorado Springs, as well as two additional HP datacenters in Atlanta. Today, I work for one of the world's largest hyperscale cloud providers, helping organizations migrate from traditional datacenters into modern cloud infrastructure.
+Having spent my career inside these facilities, I'd like to offer some perspective on how they actually work—and why they are becoming one of the most important pieces of infrastructure in our society.
+From Thousands of Small Datacenters to a Few Highly Efficient Ones
+For decades, nearly every large company operated its own datacenter inside an office building or corporate campus. While this approach worked for its time, it was also remarkably inefficient. Each organization had to build and maintain its own servers, cooling systems, backup power, networking equipment, and security infrastructure, often operating well below optimal capacity.
+Today, that model is rapidly disappearing.
+A large part of my job is helping organizations retire these aging facilities and move into hyperscale cloud environments. The analogy I often use with customers is simple:
+Why operate your own power plant when you can purchase electricity from the utility?
+The same principle applies to computing.
+Instead of thousands of companies each maintaining their own small, inefficient datacenters, hyperscale providers can deliver computing, storage, networking, cooling, and power at a scale that dramatically improves efficiency while lowering costs and increasing reliability.
+As demand continues to grow from artificial intelligence, streaming media, cloud computing, and digital services, centralized hyperscale datacenters are becoming not only the most economical solution, but also one of the most resource-efficient.
+Datacenters Are a Modern Utility
+Most people rarely think about datacenters, yet they interact with them hundreds—if not thousands—of times every day.
+Every online banking transaction.
+Every GPS route.
+Every Netflix movie.
+Every Uber ride.
+Every cloud backup.
+Every video conference.
+Every AI prompt.
+Every social media post.
+These services all depend on vast networks of servers processing information in real time.
+Much like electricity, roads, or water systems, datacenters have become critical public infrastructure. They quietly power the digital economy that businesses, governments, healthcare systems, schools, and individuals rely on every hour of every day.
+The Reality About Water Use
+One of the most common misconceptions is that datacenters constantly consume enormous quantities of fresh water.
+The reality is more nuanced.
+Most modern facilities use water primarily during the initial filling of their cooling systems. After that, the same water circulates continuously through a closed-loop system very similar to those used in power plants and industrial facilities for more than a century.
+As servers generate heat, chilled water absorbs that heat and transports it to cooling equipment where it is cooled and reused again and again.
+Some water is naturally lost through evaporation, but evaporation is simply part of the Earth's natural water cycle. Steam-based cooling and condensation technologies have existed since the Industrial Revolution and continue to be used throughout modern industry.
+Even more encouraging, many new datacenters are adopting advanced technologies such as:
+Closed-loop water reclamation
+Water recycling systems
+Air-assisted cooling
+Direct-to-chip liquid cooling
+Designs that significantly reduce or eliminate potable water use under many operating conditions
+The industry continues to invest heavily in reducing water consumption because efficiency benefits both the environment and operating costs.
+Power Is a Challenge—But Also an Opportunity
+Power consumption is perhaps the most legitimate concern surrounding modern datacenters, particularly with the rapid growth of artificial intelligence.
+The good news is that hyperscale operators are investing billions of dollars into expanding energy generation rather than simply consuming existing capacity.
+These investments include:
+Solar energy
+Wind generation
+Natural gas generation
+Large-scale battery storage
+Next-generation nuclear technologies
+Some facilities even generate excess electricity that can be returned to the electrical grid, improving overall grid resilience.
+Others purchase electricity through long-term contracts that provide utilities with predictable revenue, helping finance new transmission lines, substations, and generating capacity.
+Contrary to popular belief, large industrial customers can sometimes reduce costs for everyone by helping utilities spread infrastructure investments across a larger customer base.
+Many policymakers are also exploring development agreements that require new datacenters to fund or offset additional power generation as they expand, ensuring infrastructure grows alongside demand rather than burdening existing communities.
+What About the Noise?
+Noise is another concern that often sounds worse in theory than it is in practice.
+Anyone who has visited a modern datacenter during normal operations will likely be surprised by how quiet it is.
+Most facilities blend into the ambient sounds already present in commercial or industrial areas—traffic, HVAC equipment, and nearby businesses.
+The loudest equipment on site is typically the backup generators.
+These generators are required to ensure uninterrupted service during utility outages. However, they are not part of normal daily operations. They generally run only during actual emergencies or during brief, scheduled testing for a few hours each month.
+Modern datacenters are also designed with acoustic barriers, sound attenuation systems, and zoning setbacks specifically intended to minimize impacts on surrounding neighborhoods.
+We Can't Have One Without the Other
+As a society, we increasingly expect everything to be available instantly.
+We expect AI to answer questions in seconds.
+We expect movies to stream without buffering.
+We expect our bank balances to update immediately.
+We expect navigation systems to reroute us around traffic.
+We expect remote work, online education, cloud storage, digital healthcare, and countless other services to function flawlessly every day.
+None of that happens without datacenters.
+They are not optional luxuries. They are foundational infrastructure for modern civilization.
+It's perfectly reasonable to ask thoughtful questions about where they should be built, how they should be powered, how water should be managed, and how communities should benefit from their presence. Those conversations are important.
+But rejecting datacenters outright while continuing to depend on everything they enable is a contradiction.
+If we truly wanted a world without datacenters, we would also have to give up smartphones, cloud computing, streaming services, online banking, GPS navigation, artificial intelligence, and much of the convenience that defines modern life.
+Most people aren't advocating for that.
+Instead, we should focus on building the next generation of datacenters responsibly—using better technology, cleaner energy, smarter cooling systems, and thoughtful planning—because the digital infrastructure they provide isn't going away. If anything, it will become even more essential in the decades ahead.
