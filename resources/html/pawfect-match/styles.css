@@ -104,6 +104,9 @@ p { margin: 0 0 12px; }
   width: 56px; height: 56px; font-size: 1.9rem;
 }
 .avatar.large { width: 100%; height: 190px; border-radius: 12px; font-size: 5.5rem; }
+.avatar { overflow: hidden; }
+.avatar img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.avatar.large.has-photo { height: auto; aspect-ratio: 1 / 1; max-width: 320px; margin: 0 auto 12px; }
 
 /* Forms */
 .field { border: 0; padding: 0; margin: 0 0 16px; min-width: 0; }

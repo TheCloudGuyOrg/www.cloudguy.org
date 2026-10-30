@@ -1,5 +1,5 @@
 /*
- * Pikes Pack mockup: screens and navigation (breeding-match concept).
+ * Pawfect Match mockup: screens and navigation (breeding-match concept).
  * Everything is sample data kept in this browser (localStorage). Nothing is sent anywhere.
  * User-typed text is always added with textContent, never as HTML.
  */
@@ -8,7 +8,7 @@
 
   var M = window.PikesMatch;
   var D = window.PikesData;
-  var KEY = 'pikespack-mockup-v2';
+  var KEY = 'pawfectmatch-mockup-v1'; // new name = new saved-data key, so older saved demo data does not linger
 
   /* ---------- Option lists (labels shown on screen) ---------- */
   var O = {
@@ -102,10 +102,10 @@
 
   function avatar(dog, large) {
     var a = el('div', {
-      class: 'avatar' + (large ? ' large' : ''),
+      class: 'avatar' + (large ? ' large' : '') + (dog.photo ? ' has-photo' : ''),
       role: 'img',
-      'aria-label': 'Illustration for ' + dog.name
-    }, dog.emoji || '🐕');
+      'aria-label': (dog.photo ? 'Photo of ' : 'Illustration for ') + dog.name
+    }, dog.photo ? el('img', { src: dog.photo, alt: '' }) : (dog.emoji || '🐕'));
     a.style.background = 'linear-gradient(135deg, hsl(' + (dog.hue || 150) + ', 70%, 85%), hsl(' + (((dog.hue || 150) + 40) % 360) + ', 65%, 75%))';
     return a;
   }
@@ -201,7 +201,7 @@
       else a.removeAttribute('aria-current');
     });
 
-    document.title = v.title + ' | Pikes Pack (mockup)';
+    document.title = v.title + ' | Pawfect Match (mockup)';
     window.scrollTo(0, 0);
     var h = app.querySelector('h1');
     if (h) { h.setAttribute('tabindex', '-1'); h.focus({ preventScroll: true }); }
@@ -215,13 +215,13 @@
     return el('section', null,
       el('div', { class: 'hero' },
         el('div', { class: 'big', 'aria-hidden': 'true' }, '🐕⛰️'),
-        el('h1', null, 'Pikes Pack'),
+        el('h1', null, 'Pawfect Match'),
         el('p', null, 'Connecting dog parents in Colorado Springs who are considering breeding. Find a match by breed, health testing and temperament.')),
       el('ul', { class: 'feature-list' },
         el('li', null, el('strong', null, '1. Tell us about your dog. '), 'Breed, health testing, temperament and what you hope for.'),
         el('li', null, el('strong', null, '2. Swipe on compatible dogs nearby. '), 'We show the best fits first and hide risky or ineligible ones.'),
         el('li', null, el('strong', null, '3. Match, talk, meet. '), 'Share health results, then plan a first meeting in a public place.')),
-      el('p', { class: 'note' }, 'For intact dogs ' + M.MIN_AGE + ' years or older, and owners 18 or older. Pikes Pack does not arrange matings, sell dogs or puppies, or handle payments.'),
+      el('p', { class: 'note' }, 'For intact dogs ' + M.MIN_AGE + ' years or older, and owners 18 or older. Pawfect Match does not arrange matings, sell dogs or puppies, or handle payments.'),
       el('div', { class: 'btn-row' },
         el('a', { class: 'btn btn-primary btn-block', href: '#/setup' }, state.me ? 'Edit my dog\'s profile' : 'Create my dog\'s profile'),
         el('button', { type: 'button', class: 'btn btn-secondary btn-block', onclick: function () {
@@ -272,13 +272,13 @@
         purpose: fd.get('purpose'), comp: fd.get('comp'),
         healthNotes: String(fd.get('healthNotes') || '').trim().slice(0, 100),
         bio: String(fd.get('bio') || '').trim().slice(0, 140),
-        emoji: '🐕', hue: 150
+        emoji: '🐕', hue: 150, photo: (state.me && state.me.photo) || ''
       };
       save();
       go('discover');
     } },
       el('h1', null, state.me ? 'Edit your dog' : 'Tell us about your dog'),
-      el('p', { class: 'muted' }, 'About 3 minutes. Answers are reported by you and are not verified. Pikes Pack is for intact dogs.'),
+      el('p', { class: 'muted' }, 'About 3 minutes. Answers are reported by you and are not verified. Pawfect Match is for intact dogs.'),
       error,
 
       el('h2', { class: 'section-title' }, 'About your dog'),
@@ -321,7 +321,7 @@
 
       el('h2', { class: 'section-title' }, 'Your breeding goals'),
       radioGroup('purpose', 'What are you hoping the puppies will be?', O.purpose, d.purpose),
-      radioGroup('comp', 'How would you like to handle compensation?', O.comp, d.comp, 'Owners agree this directly. Pikes Pack does not handle payments or contracts.'),
+      radioGroup('comp', 'How would you like to handle compensation?', O.comp, d.comp, 'Owners agree this directly. Pawfect Match does not handle payments or contracts.'),
 
       el('div', { class: 'btn-row' },
         el('button', { type: 'submit', class: 'btn btn-primary' }, state.me ? 'Save' : 'Start swiping'),
@@ -686,7 +686,7 @@
         el('li', null, 'Meet only in public. Bringing a friend is a good idea.'),
         el('li', null, 'Keep dogs leashed and under control. Avoid off-leash areas, and take extra care if a female is in or near heat.'),
         el('li', null, 'Bring your health test results and vaccination records, and ask for theirs.'),
-        el('li', null, 'Talk to your vet first. Any mating is arranged privately between owners and is not part of Pikes Pack.')));
+        el('li', null, 'Talk to your vet first. Any mating is arranged privately between owners and is not part of Pawfect Match.')));
   }
 
   /* ---------- My dog ---------- */
@@ -709,7 +709,8 @@
     if (d.healthNotes) rows.push(['Health notes', d.healthNotes]);
 
     return el('section', null,
-      el('div', { class: 'chat-head' }, avatar(d), el('div', null, el('h1', null, d.name), el('span', { class: 'muted small' }, d.bio || ''))),
+      d.photo ? avatar(d, true) : null,
+      el('div', { class: 'chat-head' }, d.photo ? null : avatar(d), el('div', null, el('h1', null, d.name), el('span', { class: 'muted small' }, d.bio || ''))),
       d.aggression === 'yes' ? el('p', { class: 'note' }, 'Because of the aggression history you reported, ' + d.name + ' is not shown to other owners.') : null,
       el('dl', { class: 'facts' }, rows.map(function (r) { return [el('dt', null, r[0]), el('dd', null, r[1])]; })),
       el('div', { class: 'field' },
@@ -731,7 +732,7 @@
     return el('section', null,
       el('h1', null, 'Safety and community rules'),
       el('p', { class: 'muted' }, 'Draft wording for the mockup. A real version should be reviewed before launch.'),
-      el('h2', null, 'What Pikes Pack is'),
+      el('h2', null, 'What Pawfect Match is'),
       el('ul', null,
         el('li', null, 'A way for owners of intact, adult dogs to find compatible dogs and talk. You must be 18 or older.'),
         el('li', null, 'It does not arrange matings, sell or list dogs or puppies, or handle payments or contracts. Owners agree everything directly.'),

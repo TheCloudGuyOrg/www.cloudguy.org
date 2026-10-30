@@ -1,5 +1,5 @@
 /*
- * Pikes Pack mockup: matching rules for breeding pairs (see SPEC.md section 4).
+ * Pawfect Match mockup: matching rules for breeding pairs (see SPEC.md section 4).
  *   1. Hard filters decide whether a dog is shown at all.
  *   2. A soft score (0-100) ranks the dogs that pass.
  * Everything here is owner-reported data; nothing is verified.
@@ -39,7 +39,7 @@
 
   /* Returns a plain-language reason a dog cannot be listed, or null if it is fine. */
   function ageProblem(age, sex) {
-    if (age < MIN_AGE) return 'Pikes Pack is for dogs ' + MIN_AGE + ' years or older. Ask your vet when your dog is ready.';
+    if (age < MIN_AGE) return 'Pawfect Match is for dogs ' + MIN_AGE + ' years or older. Ask your vet when your dog is ready.';
     if (sex === 'F' && age > MAX_AGE_FEMALE) return 'For health reasons we do not list female dogs older than ' + MAX_AGE_FEMALE + '.';
     return null;
   }
