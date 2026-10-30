@@ -1,51 +1,61 @@
 /*
- * Pikes Pack mockup: matching rules (from SPEC.md section 4).
+ * Pikes Pack mockup: matching rules for breeding pairs (see SPEC.md section 4).
  *   1. Hard filters decide whether a dog is shown at all.
  *   2. A soft score (0-100) ranks the dogs that pass.
  * Everything here is owner-reported data; nothing is verified.
+ * The age limits below are PLACEHOLDERS to be confirmed with a veterinarian or breed club.
  */
 (function (root) {
   'use strict';
 
   var ENERGY = ['low', 'medium', 'high'];
-  var INTENSITY = ['gentle', 'moderate', 'rough'];
-  var PLAY_PHRASE = {
-    chase: 'chasing',
-    wrestle: 'wrestling',
-    fetch: 'fetch',
-    tug: 'tug-of-war',
-    gentle: 'gentle sniff-and-stroll'
-  };
-  var GROUP_LABEL = { one: 'one-on-one', small: 'small groups', busy: 'busy parks' };
-  var GROUP_ORDER = ['one', 'small', 'busy'];
-  var STAGES = ['puppy', 'adult', 'senior'];
+  var TRAIN = ['eager', 'average', 'independent'];
+  var DOGS = ['friendly', 'selective', 'poor'];
+  var SIZES = ['small', 'medium', 'large'];
+  var READY = ['now', 'soon', 'later'];
+  var TESTS = ['vet', 'brucellosis', 'dna', 'joints', 'eyes', 'heart'];
 
-  function stageOf(age) {
-    if (age === 'puppy') return 'puppy';
-    if (age === 'senior') return 'senior';
-    return 'adult';
+  var MIN_AGE = 2;          // years, placeholder
+  var MAX_AGE_FEMALE = 8;   // years, placeholder
+
+  var PURPOSE_LABEL = { companion: 'companion pups', show: 'show', sport: 'sport', working: 'working' };
+  var READY_LABEL = { now: 'ready now', soon: 'ready within 3 months', later: 'planning for later' };
+
+  function idx(list, v) { return list.indexOf(v); }
+  function norm(s) { return String(s || '').toLowerCase().replace(/\s+/g, ' ').trim(); }
+
+  function healthCount(dog) {
+    var n = 0;
+    TESTS.forEach(function (t) { if (dog.health && dog.health[t]) n++; });
+    return n;
+  }
+
+  function meetsHealth(dog, level) {
+    var h = dog.health || {};
+    if (level === 'basic') return !!(h.vet && h.brucellosis);
+    if (level === 'full') return !!(h.vet && h.brucellosis && (h.dna || h.joints));
+    return true;
+  }
+
+  /* Returns a plain-language reason a dog cannot be listed, or null if it is fine. */
+  function ageProblem(age, sex) {
+    if (age < MIN_AGE) return 'Pikes Pack is for dogs ' + MIN_AGE + ' years or older. Ask your vet when your dog is ready.';
+    if (sex === 'F' && age > MAX_AGE_FEMALE) return 'For health reasons we do not list female dogs older than ' + MAX_AGE_FEMALE + '.';
+    return null;
   }
 
   /* Returns null when the dog may be shown, or a short reason code when it is filtered out. */
   function blockedReason(me, dog, prefs) {
     if (dog.miles > prefs.maxMiles) return 'distance';
-    if (prefs.fixed === 'fixed' && !dog.fixed) return 'intact';
-    if (prefs.fixed === 'intact' && dog.fixed) return 'fixed';
-    if (me.comfort.indexOf(dog.size) < 0) return 'size';
-    if (dog.comfort.indexOf(me.size) < 0) return 'size';
-    if (dog.bite === 'yes') return 'bite';
-    if (prefs.relaxedOnly && (dog.bite !== 'none' || dog.reactive === 'yes')) return 'relaxed';
-    if (stageOf(dog.age) === 'puppy' && !dog.vaccinated) return 'puppy';
+    if (dog.sex === me.sex) return 'sex';
+    if (ageProblem(dog.age, dog.sex)) return 'age';
+    if (dog.aggression === 'yes') return 'aggression';
+    if (!dog.vaccinated) return 'vaccination';
+    if (Math.abs(idx(SIZES, me.size) - idx(SIZES, dog.size)) >= 2) return 'size';
+    if (prefs.breed === 'same' && norm(dog.breed) !== norm(me.breed)) return 'breed';
+    if (!meetsHealth(dog, prefs.minHealth)) return 'health';
+    if (prefs.timing === 'soon' && dog.ready === 'later') return 'timing';
     return null;
-  }
-
-  function overlap(a, b) {
-    return a.filter(function (x) { return b.indexOf(x) >= 0 && x !== 'none'; });
-  }
-
-  function union(a, b) {
-    var all = a.concat(b).filter(function (x) { return x !== 'none'; });
-    return all.filter(function (x, i) { return all.indexOf(x) === i; });
   }
 
   /* Soft score out of 100, plus short plain-language reasons. */
@@ -53,30 +63,51 @@
     var score = 0;
     var reasons = [];
 
+    // Temperament: 30 points
     var eDiff = Math.abs(me.energy - dog.energy);
-    score += 30 - eDiff * 15;
-    if (eDiff === 0) reasons.push('Both ' + ENERGY[me.energy] + ' energy');
+    score += 10 - eDiff * 5;
+    if (eDiff === 0) reasons.push('Similar energy level (' + ENERGY[me.energy] + ')');
 
-    var shared = overlap(me.play, dog.play);
-    var all = union(me.play, dog.play);
-    score += all.length ? Math.round((shared.length / all.length) * 30) : 15;
-    if (shared.length) {
-      reasons.push('Both enjoy ' + shared.map(function (p) { return PLAY_PHRASE[p]; }).join(' and '));
-    }
+    var tDiff = Math.abs(idx(TRAIN, me.train) - idx(TRAIN, dog.train));
+    score += tDiff === 0 ? 6 : tDiff === 1 ? 3 : 0;
+    if (me.train === 'eager' && dog.train === 'eager') reasons.push('Both are eager to learn');
 
-    var iDiff = Math.abs(me.intensity - dog.intensity);
-    score += 20 - iDiff * 10;
-    if (iDiff === 0) reasons.push('Same play intensity (' + INTENSITY[me.intensity] + ')');
+    var dDiff = Math.abs(idx(DOGS, me.dogs) - idx(DOGS, dog.dogs));
+    score += dDiff === 0 ? 7 : dDiff === 1 ? 4 : 0;
+    if (me.dogs === 'friendly' && dog.dogs === 'friendly') reasons.push('Both are friendly with other dogs');
 
-    var gDiff = Math.abs(GROUP_ORDER.indexOf(me.group) - GROUP_ORDER.indexOf(dog.group));
-    score += gDiff === 0 ? 10 : gDiff === 1 ? 5 : 0;
-    if (gDiff === 0) reasons.push('Both like ' + GROUP_LABEL[me.group]);
+    if (me.fear === 'significant' || dog.fear === 'significant') score += 0;
+    else if (me.fear === 'none' && dog.fear === 'none') { score += 7; reasons.push('Neither shows fear or anxiety'); }
+    else score += 4;
 
-    var aDiff = Math.abs(STAGES.indexOf(stageOf(me.age)) - STAGES.indexOf(stageOf(dog.age)));
-    score += aDiff === 0 ? 10 : aDiff === 1 ? 5 : 0;
-    if (aDiff === 0) reasons.push('Similar life stage');
+    // Health testing: 25 points, based on the other dog's reported tests
+    var n = healthCount(dog);
+    score += Math.round((25 * n) / TESTS.length);
+    if (n >= 4) reasons.push('Strong health testing reported (' + n + ' of ' + TESTS.length + ')');
+    else if (n >= 2) reasons.push('Some health testing reported (' + n + ' of ' + TESTS.length + ')');
 
-    return { score: score, reasons: reasons };
+    // Timing: 15 points
+    var rDiff = Math.abs(idx(READY, me.ready) - idx(READY, dog.ready));
+    score += rDiff === 0 ? 15 : rDiff === 1 ? 8 : 0;
+    if (rDiff === 0) reasons.push('Both ' + READY_LABEL[me.ready]);
+
+    // Goals: 15 points
+    if (me.purpose === dog.purpose) { score += 10; reasons.push('Same goal: ' + PURPOSE_LABEL[me.purpose]); }
+    if (me.comp === dog.comp || me.comp === 'discuss' || dog.comp === 'discuss') score += 5;
+
+    // Size: 5 points
+    var sDiff = Math.abs(idx(SIZES, me.size) - idx(SIZES, dog.size));
+    score += sDiff === 0 ? 5 : sDiff === 1 ? 3 : 0;
+
+    // Experience: 5 points
+    var proven = (me.experience === 'proven' ? 1 : 0) + (dog.experience === 'proven' ? 1 : 0);
+    score += proven > 0 ? 5 : 2;
+    if (proven === 1) reasons.push('One of you has bred before');
+
+    // Breed: 5 points
+    if (norm(me.breed) === norm(dog.breed)) { score += 5; reasons.push('Same breed'); }
+
+    return { score: Math.max(0, Math.min(100, score)), reasons: reasons };
   }
 
   function fitLabel(score) {
@@ -97,15 +128,10 @@
   }
 
   var api = {
-    ENERGY: ENERGY,
-    INTENSITY: INTENSITY,
-    PLAY_PHRASE: PLAY_PHRASE,
-    GROUP_LABEL: GROUP_LABEL,
-    stageOf: stageOf,
-    blockedReason: blockedReason,
-    softScore: softScore,
-    fitLabel: fitLabel,
-    rank: rank
+    ENERGY: ENERGY, TESTS: TESTS, MIN_AGE: MIN_AGE, MAX_AGE_FEMALE: MAX_AGE_FEMALE,
+    PURPOSE_LABEL: PURPOSE_LABEL, READY_LABEL: READY_LABEL,
+    healthCount: healthCount, ageProblem: ageProblem, blockedReason: blockedReason,
+    softScore: softScore, fitLabel: fitLabel, rank: rank
   };
 
   if (typeof module !== 'undefined' && module.exports) module.exports = api;

@@ -1,67 +1,102 @@
 /*
  * Pikes Pack mockup: SAMPLE DATA ONLY.
- * Dogs and owners are made up. Parks are example names to check later; hours,
- * fencing and rules are NOT verified (see SPEC.md section 7).
+ * Dogs and owners are made up. Places are example names to check later; hours and
+ * rules are NOT verified (see SPEC.md). Health results below are invented.
  */
 (function (root) {
   'use strict';
 
+  /* H([vet, brucellosis, dna, joints, eyes, heart]) -> which health tests are reported */
+  function H(a) {
+    return { vet: !!a[0], brucellosis: !!a[1], dna: !!a[2], joints: !!a[3], eyes: !!a[4], heart: !!a[5] };
+  }
+
   var dogs = [
-    { id: 'maple', name: 'Maple', owner: 'Sam', breed: 'Golden Retriever', size: 'large', age: 'adult', sex: 'F', fixed: true, vaccinated: true,
-      energy: 2, play: ['fetch', 'chase'], intensity: 1, comfort: ['medium', 'large'], greeting: 'eager', bite: 'none', reactive: 'no', guards: 'no',
-      group: 'small', recall: 'reliable', limits: '', area: 'Briargate', miles: 4.2, bio: 'Will trade sniffs for tennis balls.', emoji: '🐕', hue: 35, likesYou: true },
-    { id: 'biscuit', name: 'Biscuit', owner: 'Priya', breed: 'Corgi mix', size: 'medium', age: 'young', sex: 'M', fixed: true, vaccinated: true,
-      energy: 2, play: ['chase', 'wrestle'], intensity: 1, comfort: ['small', 'medium', 'large'], greeting: 'eager', bite: 'none', reactive: 'no', guards: 'sometimes',
-      group: 'small', recall: 'sometimes', limits: '', area: 'Old North End', miles: 2.1, bio: 'Short legs, big opinions.', emoji: '🐶', hue: 20, likesYou: true },
-    { id: 'juniper', name: 'Juniper', owner: 'Marcus', breed: 'Border Collie', size: 'medium', age: 'adult', sex: 'F', fixed: true, vaccinated: true,
-      energy: 2, play: ['chase', 'fetch'], intensity: 1, comfort: ['medium', 'large'], greeting: 'polite', bite: 'none', reactive: 'no', guards: 'no',
-      group: 'one', recall: 'reliable', limits: '', area: 'Rockrimmon', miles: 5.6, bio: 'Needs a job. Frisbee counts.', emoji: '🐕‍🦺', hue: 200, likesYou: true },
-    { id: 'otis', name: 'Otis', owner: 'Jenna', breed: 'Basset Hound', size: 'medium', age: 'senior', sex: 'M', fixed: true, vaccinated: true,
-      energy: 0, play: ['gentle'], intensity: 0, comfort: ['small', 'medium'], greeting: 'polite', bite: 'none', reactive: 'no', guards: 'no',
-      group: 'one', recall: 'leash', limits: 'Slow walker, no stairs', area: 'Manitou Springs', miles: 7.9, bio: 'Professional sniffer. Retired from running.', emoji: '🐶', hue: 28, likesYou: false },
-    { id: 'pepper', name: 'Pepper', owner: 'Luis', breed: 'Chihuahua mix', size: 'small', age: 'adult', sex: 'F', fixed: true, vaccinated: true,
-      energy: 1, play: ['chase', 'gentle'], intensity: 0, comfort: ['small'], greeting: 'shy', bite: 'none', reactive: 'sometimes', guards: 'sometimes',
-      group: 'one', recall: 'leash', limits: '', area: 'Downtown', miles: 3.3, bio: 'Small dog friends only, please.', emoji: '🐕', hue: 340, likesYou: false },
-    { id: 'bruno', name: 'Bruno', owner: 'Hannah', breed: 'German Shepherd', size: 'large', age: 'adult', sex: 'M', fixed: true, vaccinated: true,
-      energy: 2, play: ['fetch', 'tug'], intensity: 2, comfort: ['medium', 'large'], greeting: 'selective', bite: 'minor', reactive: 'sometimes', guards: 'yes',
-      group: 'one', recall: 'reliable', limits: 'Snapped once at a crowded park', area: 'Monument', miles: 8.8, bio: 'Loyal, serious, loves a good tug.', emoji: '🐕‍🦺', hue: 10, likesYou: true },
-    { id: 'waffles', name: 'Waffles', owner: 'Tom', breed: 'Labradoodle', size: 'large', age: 'puppy', sex: 'M', fixed: false, vaccinated: false,
-      energy: 2, play: ['chase', 'wrestle', 'tug'], intensity: 1, comfort: ['small', 'medium', 'large'], greeting: 'eager', bite: 'none', reactive: 'no', guards: 'no',
-      group: 'small', recall: 'leash', limits: 'Vaccine series in progress', area: 'Cimarron Hills', miles: 6.0, bio: 'All paws, no plan.', emoji: '🐩', hue: 45, likesYou: false },
-    { id: 'luna', name: 'Luna', owner: 'Aisha', breed: 'Siberian Husky', size: 'large', age: 'young', sex: 'F', fixed: true, vaccinated: true,
-      energy: 2, play: ['chase', 'wrestle'], intensity: 2, comfort: ['medium', 'large'], greeting: 'eager', bite: 'none', reactive: 'no', guards: 'no',
-      group: 'busy', recall: 'sometimes', limits: '', area: 'Fountain', miles: 9.4, bio: 'Loud, fast, and very friendly.', emoji: '🐺', hue: 215, likesYou: true },
-    { id: 'nacho', name: 'Nacho', owner: 'Chris', breed: 'Dachshund', size: 'small', age: 'adult', sex: 'M', fixed: true, vaccinated: true,
-      energy: 1, play: ['chase', 'tug'], intensity: 1, comfort: ['small', 'medium'], greeting: 'eager', bite: 'none', reactive: 'no', guards: 'sometimes',
-      group: 'small', recall: 'sometimes', limits: 'Back-friendly play only', area: 'Security-Widefield', miles: 9.9, bio: 'Long dog, short attention span.', emoji: '🐕', hue: 5, likesYou: false },
-    { id: 'ziggy', name: 'Ziggy', owner: 'Dana', breed: 'Australian Shepherd', size: 'medium', age: 'young', sex: 'M', fixed: false, vaccinated: true,
-      energy: 2, play: ['chase', 'fetch', 'wrestle'], intensity: 1, comfort: ['medium', 'large'], greeting: 'eager', bite: 'none', reactive: 'no', guards: 'no',
-      group: 'small', recall: 'reliable', limits: '', area: 'Falcon', miles: 9.5, bio: 'Herds everything, including you.', emoji: '🐕‍🦺', hue: 265, likesYou: true },
-    { id: 'poppy', name: 'Poppy', owner: 'Jordan', breed: 'Poodle mix', size: 'small', age: 'adult', sex: 'F', fixed: true, vaccinated: true,
-      energy: 1, play: ['gentle', 'fetch'], intensity: 0, comfort: ['small', 'medium'], greeting: 'polite', bite: 'none', reactive: 'no', guards: 'no',
-      group: 'small', recall: 'reliable', limits: '', area: 'Old Colorado City', miles: 3.9, bio: 'Polite, tidy, loves a small ball.', emoji: '🐩', hue: 300, likesYou: false },
-    { id: 'rocky', name: 'Rocky', owner: 'Evan', breed: 'Boxer mix', size: 'large', age: 'adult', sex: 'M', fixed: true, vaccinated: true,
-      energy: 2, play: ['wrestle', 'chase'], intensity: 2, comfort: ['medium', 'large'], greeting: 'eager', bite: 'none', reactive: 'no', guards: 'no',
-      group: 'busy', recall: 'sometimes', limits: '', area: 'Cimarron Hills', miles: 8.0, bio: 'Wiggles from nose to tail.', emoji: '🐕', hue: 15, likesYou: false },
-    { id: 'daisy', name: 'Daisy', owner: 'Mia', breed: 'Beagle', size: 'medium', age: 'adult', sex: 'F', fixed: true, vaccinated: true,
-      energy: 1, play: ['chase', 'gentle'], intensity: 1, comfort: ['small', 'medium', 'large'], greeting: 'polite', bite: 'none', reactive: 'no', guards: 'no',
-      group: 'small', recall: 'leash', limits: '', area: 'Black Forest', miles: 16.0, bio: 'Follows her nose, not commands.', emoji: '🐶', hue: 40, likesYou: false }
+    { id: 'maple', name: 'Maple', owner: 'Sam', breed: 'Golden Retriever', size: 'large', age: 4, sex: 'F', registry: 'akc',
+      experience: 'proven', ready: 'soon', health: H([1, 1, 1, 1, 1, 0]), vaccinated: true,
+      energy: 1, train: 'eager', dogs: 'friendly', kids: 'great', strangers: 'friendly', fear: 'none', aggression: 'none',
+      purpose: 'companion', comp: 'pick', healthNotes: '', area: 'Briargate', miles: 4.2,
+      bio: 'Gentle mom of two healthy litters. Easygoing and eager to please.', emoji: '🐕', hue: 35, likesYou: true },
+    { id: 'honey', name: 'Honey', owner: 'Priya', breed: 'Golden Retriever', size: 'large', age: 3, sex: 'F', registry: 'akc',
+      experience: 'first', ready: 'now', health: H([1, 1, 1, 1, 0, 0]), vaccinated: true,
+      energy: 2, train: 'eager', dogs: 'friendly', kids: 'great', strangers: 'friendly', fear: 'mild', aggression: 'none',
+      purpose: 'show', comp: 'discuss', healthNotes: '', area: 'Old North End', miles: 2.1,
+      bio: 'Show-line girl, ready for her first litter with the right match.', emoji: '🐶', hue: 28, likesYou: true },
+    { id: 'willow', name: 'Willow', owner: 'Marcus', breed: 'Golden Retriever', size: 'large', age: 2, sex: 'F', registry: 'ukc',
+      experience: 'first', ready: 'later', health: H([1, 1, 0, 1, 0, 0]), vaccinated: true,
+      energy: 0, train: 'average', dogs: 'selective', kids: 'okay', strangers: 'reserved', fear: 'none', aggression: 'none',
+      purpose: 'companion', comp: 'pick', healthNotes: '', area: 'Rockrimmon', miles: 5.6,
+      bio: 'Calm, a little shy, and still growing up. Planning ahead.', emoji: '🐕', hue: 45, likesYou: false },
+    { id: 'sunny', name: 'Sunny', owner: 'Jenna', breed: 'Golden Retriever', size: 'large', age: 6, sex: 'F', registry: 'ukc',
+      experience: 'proven', ready: 'later', health: H([1, 0, 0, 0, 0, 0]), vaccinated: true,
+      energy: 1, train: 'average', dogs: 'friendly', kids: 'great', strangers: 'friendly', fear: 'none', aggression: 'none',
+      purpose: 'companion', comp: 'discuss', healthNotes: '', area: 'Manitou Springs', miles: 7.9,
+      bio: 'Sweet family dog. Only a basic vet check so far.', emoji: '🐕‍🦺', hue: 20, likesYou: false },
+    { id: 'ruby', name: 'Ruby', owner: 'Luis', breed: 'Golden Retriever', size: 'large', age: 9, sex: 'F', registry: 'akc',
+      experience: 'proven', ready: 'later', health: H([1, 1, 1, 1, 1, 1]), vaccinated: true,
+      energy: 0, train: 'eager', dogs: 'friendly', kids: 'great', strangers: 'friendly', fear: 'none', aggression: 'none',
+      purpose: 'companion', comp: 'discuss', healthNotes: '', area: 'Downtown', miles: 3.3,
+      bio: 'A senior lady. Too old for breeding in this sample.', emoji: '🐕', hue: 340, likesYou: false },
+    { id: 'luna', name: 'Luna', owner: 'Hannah', breed: 'Golden Retriever', size: 'large', age: 5, sex: 'F', registry: 'akc',
+      experience: 'proven', ready: 'now', health: H([1, 1, 1, 1, 1, 1]), vaccinated: true,
+      energy: 2, train: 'independent', dogs: 'poor', kids: 'untested', strangers: 'wary', fear: 'significant', aggression: 'yes',
+      purpose: 'working', comp: 'fee', healthNotes: 'Snapped at a stranger once', area: 'Monument', miles: 8.8,
+      bio: 'Hidden from everyone because of her aggression history.', emoji: '🐕‍🦺', hue: 10, likesYou: true },
+    { id: 'penny', name: 'Penny', owner: 'Tom', breed: 'Golden Retriever', size: 'large', age: 3, sex: 'F', registry: 'akc',
+      experience: 'first', ready: 'now', health: H([1, 1, 1, 1, 1, 1]), vaccinated: false,
+      energy: 2, train: 'eager', dogs: 'friendly', kids: 'great', strangers: 'friendly', fear: 'none', aggression: 'none',
+      purpose: 'companion', comp: 'discuss', healthNotes: 'Vaccines overdue', area: 'Cimarron Hills', miles: 6.0,
+      bio: 'Hidden until her vaccines are up to date.', emoji: '🐶', hue: 45, likesYou: false },
+    { id: 'gracie', name: 'Gracie', owner: 'Aisha', breed: 'Golden Retriever', size: 'large', age: 4, sex: 'F', registry: 'akc',
+      experience: 'first', ready: 'soon', health: H([1, 1, 1, 1, 1, 0]), vaccinated: true,
+      energy: 1, train: 'eager', dogs: 'friendly', kids: 'great', strangers: 'friendly', fear: 'none', aggression: 'none',
+      purpose: 'sport', comp: 'discuss', healthNotes: '', area: 'Pueblo West', miles: 62,
+      bio: 'Agility girl, but a long drive away. Shown only with a wider search.', emoji: '🐕', hue: 215, likesYou: true },
+    { id: 'bruno', name: 'Bruno', owner: 'Chris', breed: 'Golden Retriever', size: 'large', age: 4, sex: 'M', registry: 'akc',
+      experience: 'proven', ready: 'now', health: H([1, 1, 1, 1, 1, 1]), vaccinated: true,
+      energy: 1, train: 'eager', dogs: 'friendly', kids: 'great', strangers: 'friendly', fear: 'none', aggression: 'none',
+      purpose: 'companion', comp: 'fee', healthNotes: '', area: 'Falcon', miles: 9.5,
+      bio: 'A male, so he is not shown to other males.', emoji: '🐕', hue: 5, likesYou: false },
+    { id: 'daisy', name: 'Daisy', owner: 'Dana', breed: 'Labrador Retriever', size: 'large', age: 3, sex: 'F', registry: 'akc',
+      experience: 'proven', ready: 'soon', health: H([1, 1, 1, 1, 1, 1]), vaccinated: true,
+      energy: 2, train: 'eager', dogs: 'friendly', kids: 'great', strangers: 'friendly', fear: 'none', aggression: 'none',
+      purpose: 'sport', comp: 'discuss', healthNotes: '', area: 'Black Forest', miles: 12.0,
+      bio: 'Fully tested Lab. Shown only when you allow other breeds.', emoji: '🐕', hue: 60, likesYou: true },
+    { id: 'coco', name: 'Coco', owner: 'Jordan', breed: 'Standard Poodle', size: 'large', age: 4, sex: 'F', registry: 'akc',
+      experience: 'first', ready: 'soon', health: H([1, 1, 1, 0, 1, 1]), vaccinated: true,
+      energy: 1, train: 'eager', dogs: 'friendly', kids: 'okay', strangers: 'reserved', fear: 'none', aggression: 'none',
+      purpose: 'show', comp: 'discuss', healthNotes: '', area: 'Old Colorado City', miles: 3.9,
+      bio: 'Elegant and smart. Shown only when you allow other breeds.', emoji: '🐩', hue: 300, likesYou: false },
+    { id: 'pepper', name: 'Pepper', owner: 'Evan', breed: 'Chihuahua', size: 'small', age: 3, sex: 'F', registry: 'akc',
+      experience: 'first', ready: 'now', health: H([1, 1, 1, 1, 1, 1]), vaccinated: true,
+      energy: 1, train: 'average', dogs: 'selective', kids: 'okay', strangers: 'wary', fear: 'mild', aggression: 'none',
+      purpose: 'companion', comp: 'discuss', healthNotes: '', area: 'Security-Widefield', miles: 9.9,
+      bio: 'Much smaller than a Golden, so the size gap keeps her hidden.', emoji: '🐕', hue: 330, likesYou: false }
   ];
 
-  var parks = [
-    { id: 'cheyenne', name: 'Cheyenne Meadows Park' },
-    { id: 'palmer', name: 'Palmer Park' },
-    { id: 'rampart', name: 'Rampart Dog Park' },
-    { id: 'antlers', name: 'Antlers Park' },
-    { id: 'falcon', name: 'Falcon Dog Park' },
-    { id: 'portal', name: 'Portal Park' }
+  /* Sample first-meeting places. Not verified: confirm names, rules and leash requirements. */
+  var places = [
+    { id: 'acacia', name: 'Acacia Park (downtown)' },
+    { id: 'monument', name: 'Monument Valley Park' },
+    { id: 'memorial', name: 'Memorial Park' },
+    { id: 'greenway', name: 'Pikes Peak Greenway trailhead' },
+    { id: 'cafe', name: 'A dog-friendly cafe patio (to be chosen)' }
+  ];
+
+  var breeds = [
+    'Golden Retriever', 'Labrador Retriever', 'German Shepherd', 'Standard Poodle', 'Miniature Poodle', 'French Bulldog',
+    'Bulldog', 'Beagle', 'Rottweiler', 'Dachshund', 'Siberian Husky', 'Australian Shepherd', 'Border Collie',
+    'Cavalier King Charles Spaniel', 'Boxer', 'Pembroke Welsh Corgi', 'Great Dane', 'Doberman Pinscher',
+    'Shih Tzu', 'Chihuahua', 'Yorkshire Terrier', 'Bernese Mountain Dog', 'Cocker Spaniel', 'Pomeranian'
   ];
 
   var demoDog = {
-    name: 'Scout', breed: 'Mixed breed', size: 'medium', age: 'adult', sex: 'M', fixed: true, vaccinated: true,
-    energy: 2, play: ['fetch', 'chase'], intensity: 1, comfort: ['small', 'medium', 'large'], greeting: 'polite', bite: 'none', reactive: 'no', guards: 'no',
-    group: 'small', recall: 'sometimes', limits: '', bio: 'Loves tennis balls and new friends.', emoji: '🐕', hue: 150, inHeat: false
+    name: 'Scout', breed: 'Golden Retriever', size: 'large', age: 3, sex: 'M', registry: 'akc',
+    experience: 'first', ready: 'soon', health: H([1, 1, 1, 1, 1, 0]), vaccinated: true,
+    energy: 1, train: 'eager', dogs: 'friendly', kids: 'great', strangers: 'friendly', fear: 'none', aggression: 'none',
+    purpose: 'companion', comp: 'discuss', healthNotes: '', bio: 'Loves tennis balls and people. Looking for the right match.',
+    emoji: '🐕', hue: 150
   };
 
-  root.PikesData = { dogs: dogs, parks: parks, demoDog: demoDog };
+  root.PikesData = { dogs: dogs, places: places, breeds: breeds, demoDog: demoDog };
 })(window);

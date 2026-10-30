@@ -1,5 +1,5 @@
 /*
- * Pikes Pack mockup: screens and navigation.
+ * Pikes Pack mockup: screens and navigation (breeding-match concept).
  * Everything is sample data kept in this browser (localStorage). Nothing is sent anywhere.
  * User-typed text is always added with textContent, never as HTML.
  */
@@ -8,26 +8,34 @@
 
   var M = window.PikesMatch;
   var D = window.PikesData;
-  var KEY = 'pikespack-mockup-v1';
+  var KEY = 'pikespack-mockup-v2';
 
   /* ---------- Option lists (labels shown on screen) ---------- */
   var O = {
-    size: [{ v: 'small', l: 'Small (under about 25 lb)' }, { v: 'medium', l: 'Medium' }, { v: 'large', l: 'Large' }],
-    age: [{ v: 'puppy', l: 'Under 1 year (puppy)' }, { v: 'young', l: '1 to 2 years' }, { v: 'adult', l: '3 to 6 years' }, { v: 'senior', l: '7 years or more' }],
-    sex: [{ v: 'F', l: 'Female' }, { v: 'M', l: 'Male' }],
-    fixed: [{ v: 'yes', l: 'Spayed / neutered' }, { v: 'no', l: 'Intact' }],
+    size: [{ v: 'small', l: 'Small (under about 25 lb)' }, { v: 'medium', l: 'Medium (about 25 to 60 lb)' }, { v: 'large', l: 'Large (over about 60 lb)' }],
+    sex: [{ v: 'F', l: 'Female (dam)' }, { v: 'M', l: 'Male (sire)' }],
+    registry: [{ v: 'akc', l: 'AKC' }, { v: 'ukc', l: 'UKC' }, { v: 'other', l: 'Other registry' }, { v: 'none', l: 'Not registered' }],
+    experience: [{ v: 'first', l: 'First litter' }, { v: 'proven', l: 'Has bred before' }],
+    ready: [{ v: 'now', l: 'Ready now' }, { v: 'soon', l: 'Within 3 months' }, { v: 'later', l: 'Later (planning ahead)' }],
     vaccinated: [{ v: 'yes', l: 'Yes, up to date' }, { v: 'no', l: 'Not yet / not sure' }],
+    health: [{ v: 'vet', l: 'Vet exam in the last 12 months' }, { v: 'brucellosis', l: 'Brucellosis test (negative)' },
+      { v: 'dna', l: 'DNA / genetic panel' }, { v: 'joints', l: 'Hip and elbow evaluation' },
+      { v: 'eyes', l: 'Eye exam' }, { v: 'heart', l: 'Heart exam' }],
     energy: [{ v: '0', l: 'Low' }, { v: '1', l: 'Medium' }, { v: '2', l: 'High' }],
-    play: [{ v: 'chase', l: 'Chasing' }, { v: 'wrestle', l: 'Wrestling' }, { v: 'fetch', l: 'Fetch / ball' }, { v: 'tug', l: 'Tug' },
-      { v: 'gentle', l: 'Gentle sniff-and-stroll' }, { v: 'none', l: 'Not into playing' }],
-    intensity: [{ v: '0', l: 'Gentle' }, { v: '1', l: 'Moderate' }, { v: '2', l: 'Rough' }],
-    greeting: [{ v: 'eager', l: 'Eager greeter' }, { v: 'polite', l: 'Polite' }, { v: 'shy', l: 'Shy, warms up slowly' }, { v: 'selective', l: 'Selective' }],
-    bite: [{ v: 'none', l: 'None' }, { v: 'minor', l: 'Minor (once or twice)' }, { v: 'yes', l: 'Yes' }],
-    reactive: [{ v: 'no', l: 'No' }, { v: 'sometimes', l: 'Sometimes' }, { v: 'yes', l: 'Yes' }],
-    guards: [{ v: 'no', l: 'No' }, { v: 'sometimes', l: 'Sometimes' }, { v: 'yes', l: 'Yes' }],
-    group: [{ v: 'one', l: 'One-on-one' }, { v: 'small', l: 'Small group' }, { v: 'busy', l: 'Busy park' }],
-    recall: [{ v: 'reliable', l: 'Reliable' }, { v: 'sometimes', l: 'Sometimes' }, { v: 'leash', l: 'Leash only' }]
+    train: [{ v: 'eager', l: 'Eager to learn' }, { v: 'average', l: 'Average' }, { v: 'independent', l: 'Independent / stubborn' }],
+    dogs: [{ v: 'friendly', l: 'Friendly' }, { v: 'selective', l: 'Selective' }, { v: 'poor', l: 'Struggles with other dogs' }],
+    kids: [{ v: 'great', l: 'Great with children' }, { v: 'okay', l: 'Okay with children' }, { v: 'untested', l: 'Not tested around children' }],
+    strangers: [{ v: 'friendly', l: 'Friendly' }, { v: 'reserved', l: 'Reserved' }, { v: 'wary', l: 'Wary' }],
+    fear: [{ v: 'none', l: 'None' }, { v: 'mild', l: 'Mild' }, { v: 'significant', l: 'Significant' }],
+    aggression: [{ v: 'none', l: 'None' }, { v: 'minor', l: 'Minor (once or twice)' }, { v: 'yes', l: 'Yes' }],
+    purpose: [{ v: 'companion', l: 'Family companions' }, { v: 'show', l: 'Show' }, { v: 'sport', l: 'Sport (agility, obedience)' }, { v: 'working', l: 'Working (hunting, herding, service)' }],
+    comp: [{ v: 'fee', l: 'Stud fee' }, { v: 'pick', l: 'Pick of the litter' }, { v: 'discuss', l: 'Open to discuss' }],
+    meet: [{ v: 'video', l: 'Video call (no travel)' }, { v: 'owners', l: 'Owners only, no dogs, at a public place' }, { v: 'dogs', l: 'Owners and dogs, leashed, at a public park' }]
   };
+
+  var MEET_SHORT = { video: 'Video call', owners: 'Owners-only meeting', dogs: 'Leashed meeting with dogs' };
+
+  var TEST_SHORT = { vet: 'Vet exam', brucellosis: 'Brucellosis', dna: 'DNA panel', joints: 'Hips/elbows', eyes: 'Eyes', heart: 'Heart' };
 
   function labelOf(group, value) {
     var list = O[group] || [];
@@ -35,13 +43,15 @@
     return String(value);
   }
 
-  var AGE_SHORT = { puppy: 'Puppy', young: '1 to 2 yrs', adult: '3 to 6 yrs', senior: '7+ yrs' };
+  function shortLabel(group, value) { return labelOf(group, value).split(' (')[0]; }
+
+  function ageText(age) { return age + (Number(age) === 1 ? ' yr' : ' yrs'); }
 
   /* ---------- State ---------- */
   function freshState() {
     return {
       me: null,
-      prefs: { maxMiles: 10, fixed: 'fixed', relaxedOnly: true },
+      prefs: { maxMiles: 50, breed: 'same', minHealth: 'basic', timing: 'any' },
       liked: [], passed: [], blocked: [],
       matches: [], messages: {}, meetups: []
     };
@@ -114,7 +124,7 @@
       el('div', { class: 'options' }, options.map(function (o) {
         var id = 'f-' + name + '-' + o.v;
         return el('label', { class: 'opt', for: id },
-          el('input', { type: 'radio', name: name, id: id, value: o.v, required: true, checked: String(current) === String(o.v) }),
+          el('input', { type: 'radio', name: name, id: id, value: o.v, checked: String(current) === String(o.v) }),
           el('span', null, o.l));
       })));
   }
@@ -141,13 +151,17 @@
 
   function createMatch(dog) {
     state.matches.push(dog.id);
-    addMessage(dog.id, 'sys', 'You matched with ' + dog.name + '. Say hi and suggest a dog park.');
-    addMessage(dog.id, 'them', 'Hi! This is ' + dog.owner + ', ' + dog.name + "'s person. " + dog.name + ' would love a playdate with ' + state.me.name + '.');
+    addMessage(dog.id, 'sys', 'You matched with ' + dog.name + '. Introduce yourselves and share your health testing results.');
+    addMessage(dog.id, 'them', 'Hi! This is ' + dog.owner + ', ' + dog.name + "'s person. We would love to talk about a possible pairing between " + dog.name + ' and ' + state.me.name + '. Happy to share our health test results.');
   }
 
   function lastMessage(id) {
     var list = state.messages[id] || [];
     return list.length ? list[list.length - 1] : null;
+  }
+
+  function reportedTests(dog) {
+    return M.TESTS.filter(function (t) { return dog.health && dog.health[t]; });
   }
 
   /* ---------- Router ---------- */
@@ -161,7 +175,7 @@
     discover: { title: 'Discover', fn: viewDiscover, chrome: true, needsDog: true },
     matches: { title: 'Matches', fn: viewMatches, chrome: true, needsDog: true },
     chat: { title: 'Chat', fn: viewChat, chrome: true, needsDog: true, tab: 'matches' },
-    meetup: { title: 'Plan a meetup', fn: viewMeetup, chrome: true, needsDog: true, tab: 'matches' },
+    meetup: { title: 'Plan a first meeting', fn: viewMeetup, chrome: true, needsDog: true, tab: 'matches' },
     profile: { title: 'My dog', fn: viewProfile, chrome: true, needsDog: true },
     safety: { title: 'Safety', fn: viewSafety, chrome: true }
   };
@@ -202,11 +216,12 @@
       el('div', { class: 'hero' },
         el('div', { class: 'big', 'aria-hidden': 'true' }, '🐕⛰️'),
         el('h1', null, 'Pikes Pack'),
-        el('p', null, 'Playdates for dogs in Colorado Springs. Match with dogs that play like yours, then meet at a public dog park.')),
+        el('p', null, 'Connecting dog parents in Colorado Springs who are considering breeding. Find a match by breed, health testing and temperament.')),
       el('ul', { class: 'feature-list' },
-        el('li', null, el('strong', null, '1. Tell us about your dog. '), 'Size, energy, how they like to play.'),
-        el('li', null, el('strong', null, '2. Swipe on nearby dogs. '), 'We show the best fits first and hide the risky ones.'),
-        el('li', null, el('strong', null, '3. Match, chat, meet. '), 'Pick a dog park and a time that works for both of you.')),
+        el('li', null, el('strong', null, '1. Tell us about your dog. '), 'Breed, health testing, temperament and what you hope for.'),
+        el('li', null, el('strong', null, '2. Swipe on compatible dogs nearby. '), 'We show the best fits first and hide risky or ineligible ones.'),
+        el('li', null, el('strong', null, '3. Match, talk, meet. '), 'Share health results, then plan a first meeting in a public place.')),
+      el('p', { class: 'note' }, 'For intact dogs ' + M.MIN_AGE + ' years or older, and owners 18 or older. Pikes Pack does not arrange matings, sell dogs or puppies, or handle payments.'),
       el('div', { class: 'btn-row' },
         el('a', { class: 'btn btn-primary btn-block', href: '#/setup' }, state.me ? 'Edit my dog\'s profile' : 'Create my dog\'s profile'),
         el('button', { type: 'button', class: 'btn btn-secondary btn-block', onclick: function () {
@@ -216,84 +231,98 @@
           go('discover');
         } }, 'Try it with a demo dog'),
         state.me ? el('a', { class: 'btn btn-quiet btn-block', href: '#/discover' }, 'Back to swiping') : null),
-      el('p', { class: 'note' }, 'Mockup only. The dogs, owners and parks are made up, and everything stays in this browser.'));
+      el('p', { class: 'note' }, 'Mockup only. The dogs, owners, test results and places are made up, and everything stays in this browser.'));
   }
 
-  /* ---------- Setup (dog profile + temperament questions) ---------- */
+  /* ---------- Setup (dog profile + health + temperament questions) ---------- */
   function viewSetup() {
     var d = state.me || {
-      name: '', breed: '', size: 'medium', age: 'adult', sex: 'M', fixed: true, vaccinated: true,
-      energy: 1, play: ['fetch'], intensity: 1, comfort: ['medium'], greeting: 'polite', bite: 'none',
-      reactive: 'no', guards: 'no', group: 'small', recall: 'sometimes', limits: '', bio: '', inHeat: false
+      name: '', breed: '', size: 'large', age: 3, sex: 'M', registry: 'akc',
+      experience: 'first', ready: 'soon', health: {}, vaccinated: true,
+      energy: 1, train: 'average', dogs: 'friendly', kids: 'okay', strangers: 'friendly', fear: 'none', aggression: 'none',
+      purpose: 'companion', comp: 'discuss', healthNotes: '', bio: ''
     };
+    var checkedTests = M.TESTS.filter(function (t) { return d.health && d.health[t]; });
     var error = el('p', { class: 'error', role: 'alert', hidden: true });
 
     var form = el('form', { novalidate: true, onsubmit: function (e) {
       e.preventDefault();
       var fd = new FormData(form);
       var name = String(fd.get('name') || '').trim().slice(0, 30);
-      var play = fd.getAll('play');
-      var comfort = fd.getAll('comfort');
+      var breed = String(fd.get('breed') || '').trim().slice(0, 40);
+      var ageNum = Number(fd.get('age'));
+      var sex = fd.get('sex');
+      var required = ['size', 'sex', 'registry', 'experience', 'ready', 'vaccinated', 'energy', 'train', 'dogs', 'kids',
+        'strangers', 'fear', 'aggression', 'purpose', 'comp'];
       var problem = null;
       if (!name) problem = 'Please enter your dog\'s name.';
-      else if (!fd.get('size') || !fd.get('age') || !fd.get('sex') || !fd.get('fixed') || !fd.get('vaccinated')) problem = 'Please answer every question in "About your dog".';
-      else if (!play.length) problem = 'Pick at least one play style (or "Not into playing").';
-      else if (!comfort.length) problem = 'Pick at least one size your dog plays well with.';
-      else if (['energy', 'intensity', 'greeting', 'bite', 'reactive', 'guards', 'group', 'recall'].some(function (k) { return !fd.get(k); })) problem = 'Please answer every temperament question.';
+      else if (!breed) problem = 'Please enter your dog\'s breed.';
+      else if (fd.get('age') === '' || isNaN(ageNum) || ageNum < 0 || ageNum > 20) problem = 'Please enter your dog\'s age in years (0 to 20).';
+      else if (required.some(function (k) { return !fd.get(k); })) problem = 'Please answer every question marked with options.';
+      else problem = M.ageProblem(ageNum, sex);
       if (problem) { error.textContent = problem; error.hidden = false; if (error.scrollIntoView) error.scrollIntoView({ block: 'center' }); return; }
 
+      var health = {};
+      fd.getAll('health').forEach(function (t) { health[t] = true; });
       state.me = {
-        name: name,
-        breed: String(fd.get('breed') || '').trim().slice(0, 40) || 'Mixed breed',
-        size: fd.get('size'), age: fd.get('age'), sex: fd.get('sex'),
-        fixed: fd.get('fixed') === 'yes', vaccinated: fd.get('vaccinated') === 'yes',
-        energy: Number(fd.get('energy')), play: play, intensity: Number(fd.get('intensity')), comfort: comfort,
-        greeting: fd.get('greeting'), bite: fd.get('bite'), reactive: fd.get('reactive'), guards: fd.get('guards'),
-        group: fd.get('group'), recall: fd.get('recall'),
-        limits: String(fd.get('limits') || '').trim().slice(0, 100),
+        name: name, breed: breed, size: fd.get('size'), age: ageNum, sex: sex, registry: fd.get('registry'),
+        experience: fd.get('experience'), ready: fd.get('ready'), health: health, vaccinated: fd.get('vaccinated') === 'yes',
+        energy: Number(fd.get('energy')), train: fd.get('train'), dogs: fd.get('dogs'), kids: fd.get('kids'),
+        strangers: fd.get('strangers'), fear: fd.get('fear'), aggression: fd.get('aggression'),
+        purpose: fd.get('purpose'), comp: fd.get('comp'),
+        healthNotes: String(fd.get('healthNotes') || '').trim().slice(0, 100),
         bio: String(fd.get('bio') || '').trim().slice(0, 140),
-        inHeat: state.me ? !!state.me.inHeat : false,
         emoji: '🐕', hue: 150
       };
       save();
       go('discover');
     } },
       el('h1', null, state.me ? 'Edit your dog' : 'Tell us about your dog'),
-      el('p', { class: 'muted' }, 'About 2 minutes. Answers are reported by you and are not verified.'),
+      el('p', { class: 'muted' }, 'About 3 minutes. Answers are reported by you and are not verified. Pikes Pack is for intact dogs.'),
       error,
+
       el('h2', { class: 'section-title' }, 'About your dog'),
       el('div', { class: 'field' },
         el('label', { class: 'lbl', for: 'f-name' }, 'Name'),
-        el('input', { type: 'text', id: 'f-name', name: 'name', maxlength: '30', autocomplete: 'off', required: true, value: d.name })),
+        el('input', { type: 'text', id: 'f-name', name: 'name', maxlength: '30', autocomplete: 'off', value: d.name })),
       el('div', { class: 'field' },
-        el('label', { class: 'lbl', for: 'f-breed' }, 'Breed or mix'),
-        el('input', { type: 'text', id: 'f-breed', name: 'breed', maxlength: '40', autocomplete: 'off', value: d.breed })),
-      radioGroup('size', 'Size', O.size, d.size),
-      radioGroup('age', 'Age', O.age, d.age, 'Puppies can join once their vaccine series is complete.'),
+        el('label', { class: 'lbl', for: 'f-breed' }, 'Breed'),
+        el('p', { class: 'help', id: 'f-breed-help' }, 'Start typing to pick from common breeds, or enter your own. Matching uses breed.'),
+        el('input', { type: 'text', id: 'f-breed', name: 'breed', maxlength: '40', autocomplete: 'off', list: 'breed-list', 'aria-describedby': 'f-breed-help', value: d.breed }),
+        el('datalist', { id: 'breed-list' }, D.breeds.map(function (b) { return el('option', { value: b }); }))),
       radioGroup('sex', 'Sex', O.sex, d.sex),
-      radioGroup('fixed', 'Spayed / neutered?', O.fixed, d.fixed ? 'yes' : 'no'),
-      radioGroup('vaccinated', 'Vaccinations up to date?', O.vaccinated, d.vaccinated ? 'yes' : 'no', 'Owner-reported. We do not verify records.'),
+      el('div', { class: 'field' },
+        el('label', { class: 'lbl', for: 'f-age' }, 'Age in years'),
+        el('p', { class: 'help', id: 'f-age-help' }, 'Dogs must be at least ' + M.MIN_AGE + ' years old (placeholder rule; confirm with a vet).'),
+        el('input', { type: 'number', id: 'f-age', name: 'age', min: '0', max: '20', step: '0.5', inputmode: 'decimal', 'aria-describedby': 'f-age-help', value: String(d.age) })),
+      radioGroup('size', 'Size', O.size, d.size),
+      radioGroup('registry', 'Registry', O.registry, d.registry),
       el('div', { class: 'field' },
         el('label', { class: 'lbl', for: 'f-bio' }, 'Short bio (optional)'),
         el('textarea', { id: 'f-bio', name: 'bio', maxlength: '140' }, d.bio)),
 
-      el('h2', { class: 'section-title' }, 'How your dog plays'),
-      radioGroup('energy', 'Energy level', O.energy, d.energy),
-      checkGroup('play', 'Play style (pick any)', O.play, d.play),
-      radioGroup('intensity', 'Play intensity', O.intensity, d.intensity),
-      checkGroup('comfort', 'Plays well with (pick any)', O.size, d.comfort, 'Both owners\' answers must allow the pairing.'),
-      radioGroup('greeting', 'Meeting new dogs', O.greeting, d.greeting),
-      radioGroup('group', 'Best in', O.group, d.group),
-      radioGroup('recall', 'Off-leash recall', O.recall, d.recall),
-
-      el('h2', { class: 'section-title' }, 'Safety (be honest, it keeps dogs safe)'),
-      radioGroup('bite', 'Any history of snapping, biting or fights with dogs?', O.bite, d.bite),
-      radioGroup('reactive', 'Reactive on leash?', O.reactive, d.reactive),
-      radioGroup('guards', 'Guards toys, treats or people?', O.guards, d.guards),
+      el('h2', { class: 'section-title' }, 'Health and breeding readiness'),
+      radioGroup('vaccinated', 'Vaccinations up to date?', O.vaccinated, d.vaccinated ? 'yes' : 'no', 'Dogs without current vaccines are not shown to others.'),
+      checkGroup('health', 'Health testing done (pick any)', O.health, checkedTests, 'Owner-reported. We do not verify records. Be ready to share results when you match.'),
       el('div', { class: 'field' },
-        el('label', { class: 'lbl', for: 'f-limits' }, 'Limits (optional)'),
-        el('p', { class: 'help', id: 'f-limits-help' }, 'For example: sore hips, afraid of loud noises.'),
-        el('input', { type: 'text', id: 'f-limits', name: 'limits', maxlength: '100', 'aria-describedby': 'f-limits-help', value: d.limits })),
+        el('label', { class: 'lbl', for: 'f-hn' }, 'Known health issues in your dog or close relatives (optional)'),
+        el('input', { type: 'text', id: 'f-hn', name: 'healthNotes', maxlength: '100', value: d.healthNotes })),
+      radioGroup('experience', 'Breeding experience', O.experience, d.experience),
+      radioGroup('ready', 'When are you hoping to breed?', O.ready, d.ready, 'For a female, think about her next heat cycle. Your vet can help with timing.'),
+
+      el('h2', { class: 'section-title' }, 'Temperament'),
+      radioGroup('energy', 'Energy level', O.energy, d.energy),
+      radioGroup('train', 'Trainability', O.train, d.train),
+      radioGroup('dogs', 'With other dogs', O.dogs, d.dogs),
+      radioGroup('kids', 'With children', O.kids, d.kids),
+      radioGroup('strangers', 'With strangers', O.strangers, d.strangers),
+      radioGroup('fear', 'Fear or anxiety', O.fear, d.fear, 'Temperament can be passed on, so this matters for pairing.'),
+      radioGroup('aggression', 'Any history of aggression or biting (people or dogs)?', O.aggression, d.aggression, 'Be honest. Dogs with a history of aggression are not shown to other owners.'),
+
+      el('h2', { class: 'section-title' }, 'Your breeding goals'),
+      radioGroup('purpose', 'What are you hoping the puppies will be?', O.purpose, d.purpose),
+      radioGroup('comp', 'How would you like to handle compensation?', O.comp, d.comp, 'Owners agree this directly. Pikes Pack does not handle payments or contracts.'),
+
       el('div', { class: 'btn-row' },
         el('button', { type: 'submit', class: 'btn btn-primary' }, state.me ? 'Save' : 'Start swiping'),
         el('a', { class: 'btn btn-quiet', href: state.me ? '#/profile' : '#/welcome' }, 'Cancel')));
@@ -306,32 +335,28 @@
     var busy = false;
     var stage = el('div', { class: 'stage' });
     var actions = el('div', { class: 'actions' });
-    var hint = el('p', { class: 'hint' }, 'Tip: drag the card, or use the left and right arrow keys.');
+    var hint = el('p', { class: 'hint' }, '');
 
-    function queue() {
+    function unseenPool() {
       var seen = {};
       state.liked.concat(state.passed, state.blocked).forEach(function (id) { seen[id] = true; });
-      var pool = D.dogs.filter(function (d) { return !seen[d.id]; });
-      return M.rank(state.me, pool, state.prefs);
+      return D.dogs.filter(function (d) { return !seen[d.id]; });
     }
 
-    function hiddenCount() {
-      var seen = {};
-      state.liked.concat(state.passed, state.blocked).forEach(function (id) { seen[id] = true; });
-      return D.dogs.filter(function (d) { return !seen[d.id]; }).length - queue().length;
-    }
+    function queue() { return M.rank(state.me, unseenPool(), state.prefs); }
 
     function renderStage() {
       busy = false;
       stage.replaceChildren();
       var q = queue();
+      var hidden = unseenPool().length - q.length;
       if (!q.length) {
         actions.hidden = true;
         hint.hidden = true;
         stage.append(el('div', { class: 'empty' },
           el('div', { class: 'big', 'aria-hidden': 'true' }, '🌲'),
           el('h2', null, 'No more dogs for now'),
-          el('p', null, 'Try a wider distance, or bring back dogs you passed on.'),
+          el('p', null, 'Try a wider distance or other breeds, or bring back dogs you passed on.' + (hidden > 0 ? ' ' + hidden + ' dog(s) are hidden by your filters and safety rules.' : '')),
           el('button', { type: 'button', class: 'btn btn-secondary', onclick: function () { state.passed = []; save(); renderStage(); } }, 'Show passed dogs again')));
         return;
       }
@@ -339,28 +364,34 @@
       hint.hidden = false;
       stage.append(card(q[0]));
       hint.textContent = 'Tip: drag the card, or use the left and right arrow keys. ' +
-        (hiddenCount() > 0 ? hiddenCount() + ' dog(s) hidden by your filters and safety settings.' : '');
+        (hidden > 0 ? hidden + ' dog(s) hidden by your filters and safety rules.' : '');
     }
 
     function card(entry) {
       var dog = entry.dog;
       var c = el('article', { class: 'card', 'aria-label': dog.name + ', ' + dog.breed });
       var chips = [];
-      chips.push(el('li', { class: 'chip ' + (dog.fixed ? 'ok' : '') }, dog.fixed ? 'Spayed / neutered' : 'Intact'));
-      chips.push(el('li', { class: 'chip ' + (dog.vaccinated ? 'ok' : 'caution') }, dog.vaccinated ? 'Vaccinated (owner-reported)' : 'Vaccination not confirmed'));
+      chips.push(el('li', { class: 'chip' }, labelOf('registry', dog.registry)));
+      chips.push(el('li', { class: 'chip' }, labelOf('experience', dog.experience)));
+      chips.push(el('li', { class: 'chip' }, M.READY_LABEL[dog.ready].replace(/^./, function (m) { return m.toUpperCase(); })));
+      chips.push(el('li', { class: 'chip' }, 'Goal: ' + labelOf('purpose', dog.purpose).split(' (')[0].toLowerCase()));
+      chips.push(el('li', { class: 'chip ok' }, 'Vaccinated (owner-reported)'));
+      var tests = reportedTests(dog);
+      tests.forEach(function (t) { chips.push(el('li', { class: 'chip ok' }, TEST_SHORT[t])); });
+      if (!tests.length) chips.push(el('li', { class: 'chip caution' }, 'No health tests reported'));
       chips.push(el('li', { class: 'chip' }, M.ENERGY[dog.energy] + ' energy'));
-      dog.play.forEach(function (p) { if (p !== 'none') chips.push(el('li', { class: 'chip' }, labelOf('play', p))); });
-      chips.push(el('li', { class: 'chip' }, labelOf('greeting', dog.greeting)));
-      chips.push(el('li', { class: 'chip' }, 'Recall: ' + labelOf('recall', dog.recall).toLowerCase()));
-      if (dog.bite !== 'none') chips.push(el('li', { class: 'chip caution' }, 'Past snapping: ' + labelOf('bite', dog.bite).toLowerCase()));
-      if (dog.reactive !== 'no') chips.push(el('li', { class: 'chip caution' }, 'Leash reactive: ' + dog.reactive));
-      if (dog.guards !== 'no') chips.push(el('li', { class: 'chip caution' }, 'Guards things: ' + dog.guards));
-      if (dog.limits) chips.push(el('li', { class: 'chip caution' }, dog.limits));
+      chips.push(el('li', { class: 'chip' }, labelOf('train', dog.train)));
+      if (dog.kids === 'untested') chips.push(el('li', { class: 'chip caution' }, 'Not tested around children'));
+      if (dog.dogs !== 'friendly') chips.push(el('li', { class: 'chip caution' }, 'With dogs: ' + labelOf('dogs', dog.dogs).toLowerCase()));
+      if (dog.strangers === 'wary') chips.push(el('li', { class: 'chip caution' }, 'Wary of strangers'));
+      if (dog.fear !== 'none') chips.push(el('li', { class: 'chip caution' }, 'Fear or anxiety: ' + dog.fear));
+      if (dog.aggression === 'minor') chips.push(el('li', { class: 'chip caution' }, 'Past aggression: minor'));
+      if (dog.healthNotes) chips.push(el('li', { class: 'chip caution' }, dog.healthNotes));
 
       c.append(
         avatar(dog, true),
-        el('h2', null, dog.name + ', ' + AGE_SHORT[dog.age]),
-        el('p', { class: 'sub' }, dog.breed + ' · ' + labelOf('size', dog.size).split(' (')[0] + ' · about ' + dog.miles + ' mi, ' + dog.area),
+        el('h2', null, dog.name + ', ' + ageText(dog.age)),
+        el('p', { class: 'sub' }, dog.breed + ' · ' + shortLabel('sex', dog.sex) + ' · ' + shortLabel('size', dog.size) + ' · about ' + dog.miles + ' mi, ' + dog.area),
         el('p', null, dog.bio),
         el('div', { class: 'fit' }, el('span', { class: 'score' }, entry.score + '%'), M.fitLabel(entry.score)),
         entry.reasons.length ? el('ul', { class: 'reasons' }, entry.reasons.map(function (r) { return el('li', null, r); })) : null,
@@ -433,11 +464,16 @@
 
     function topEntry() { var q = queue(); return q.length ? q[0] : null; }
 
+    function closeDialog(dlg) {
+      if (typeof dlg.close === 'function') dlg.close();
+      else dlg.remove();
+    }
+
     function showMatch(dog) {
       var dlg = el('dialog', { 'aria-labelledby': 'match-title' },
         el('div', { class: 'pair' }, avatar(state.me), el('span', { 'aria-hidden': 'true' }, '💚'), avatar(dog)),
         el('h2', { id: 'match-title' }, "It's a match!"),
-        el('p', null, state.me.name + ' and ' + dog.name + ' liked each other.'),
+        el('p', null, state.me.name + ' and ' + dog.name + ' liked each other. Next, introduce yourselves and share health results.'),
         el('div', { class: 'btn-row', style: 'justify-content:center' },
           el('button', { type: 'button', class: 'btn btn-primary', onclick: function () { closeDialog(dlg); go('chat/' + dog.id); } }, 'Send a message'),
           el('button', { type: 'button', class: 'btn btn-quiet', onclick: function () { closeDialog(dlg); } }, 'Keep swiping')));
@@ -445,11 +481,6 @@
       app.append(dlg);
       if (dlg.showModal) dlg.showModal(); else dlg.setAttribute('open', '');
       say("It's a match with " + dog.name);
-    }
-
-    function closeDialog(dlg) {
-      if (typeof dlg.close === 'function') dlg.close();
-      else dlg.remove();
     }
 
     function onKey(e) {
@@ -472,27 +503,28 @@
     /* Filters */
     var p = state.prefs;
     function prefChanged() { save(); renderStage(); }
+    function choice(name, legend, options, current, onPick, help) {
+      return el('fieldset', { class: 'field' },
+        el('legend', null, legend),
+        help ? el('p', { class: 'help' }, help) : null,
+        el('div', { class: 'options' }, options.map(function (o) {
+          var id = 'p-' + name + '-' + o.v;
+          return el('label', { class: 'opt', for: id },
+            el('input', { type: 'radio', name: 'p-' + name, id: id, value: o.v, checked: current === o.v, onchange: function () { onPick(o.v); prefChanged(); } }),
+            el('span', null, o.l));
+        })));
+    }
     var filters = el('details', { class: 'filters' },
       el('summary', null, 'Filters and safety'),
       el('div', { class: 'field' },
         el('label', { class: 'lbl', for: 'p-miles' }, 'Distance'),
         el('select', { id: 'p-miles', onchange: function (e) { p.maxMiles = Number(e.target.value); prefChanged(); } },
-          [2, 5, 10, 25].map(function (m) { return el('option', { value: String(m), selected: p.maxMiles === m }, 'Within ' + m + ' miles'); }))),
-      el('fieldset', { class: 'field' },
-        el('legend', null, 'Show dogs that are'),
-        el('div', { class: 'options' }, [
-          { v: 'fixed', l: 'Spayed / neutered' }, { v: 'both', l: 'Either' }, { v: 'intact', l: 'Intact' }
-        ].map(function (o) {
-          var id = 'p-fixed-' + o.v;
-          return el('label', { class: 'opt', for: id },
-            el('input', { type: 'radio', name: 'p-fixed', id: id, value: o.v, checked: p.fixed === o.v, onchange: function () { p.fixed = o.v; prefChanged(); } }),
-            el('span', null, o.l));
-        }))),
-      el('div', { class: 'field' },
-        el('label', { for: 'p-relaxed' },
-          el('input', { type: 'checkbox', id: 'p-relaxed', checked: p.relaxedOnly, onchange: function (e) { p.relaxedOnly = e.target.checked; prefChanged(); } }),
-          ' Only show relaxed dogs (no snapping history, not leash reactive)')),
-      el('p', { class: 'help' }, 'Dogs with a "yes" to snapping or fights are always hidden. Puppies appear once their vaccine series is complete.'));
+          [10, 25, 50, 100].map(function (m) { return el('option', { value: String(m), selected: p.maxMiles === m }, 'Within ' + m + ' miles'); }))),
+      choice('breed', 'Breed', [{ v: 'same', l: 'Same breed only' }, { v: 'any', l: 'Any breed' }], p.breed, function (v) { p.breed = v; }),
+      choice('health', 'Health testing', [{ v: 'any', l: 'Any' }, { v: 'basic', l: 'Vet exam + brucellosis' }, { v: 'full', l: 'Plus DNA or joint tests' }],
+        p.minHealth, function (v) { p.minHealth = v; }, 'Based on what owners report. Not verified.'),
+      choice('timing', 'Timing', [{ v: 'any', l: 'Any' }, { v: 'soon', l: 'Ready within 3 months' }], p.timing, function (v) { p.timing = v; }),
+      el('p', { class: 'help' }, 'Always applied: opposite sex, minimum and maximum age, current vaccines, no aggression history, and no extreme size gaps.'));
 
     renderStage();
 
@@ -518,13 +550,13 @@
         el('div', { class: 'big', 'aria-hidden': 'true' }, '💌'),
         el('p', null, 'No matches yet. Keep swiping!'),
         el('a', { class: 'btn btn-primary', href: '#/discover' }, 'Back to Discover')),
-      meetups.length ? el('h2', null, 'Meetups') : null,
+      meetups.length ? el('h2', null, 'First meetings') : null,
       meetups.length ? el('ul', { class: 'list' }, meetups.map(function (m) {
         var dog = findDog(m.dogId);
         return el('li', null, el('div', { class: 'row' },
           avatar(dog),
           el('div', { class: 'grow' },
-            el('strong', null, 'With ' + dog.name + ' at ' + m.parkName),
+            el('strong', null, MEET_SHORT[m.kind] + ' with ' + dog.name + (m.place ? ' at ' + m.place : '')),
             el('span', { class: 'preview' }, new Date(m.when).toLocaleString([], { weekday: 'short', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' }))),
           el('span', { class: 'status' + (m.status === 'Accepted' ? ' ok' : '') }, m.status)));
       })) : null);
@@ -532,9 +564,9 @@
 
   /* ---------- Chat ---------- */
   var REPLIES = [
-    'That sounds great! What time were you thinking?',
-    'Perfect, we can be there. Does a weekend morning work?',
-    'Love it. Maybe the dog park, so they can run?'
+    'Sounds good. I can send our test results ahead of time. What would you like to see?',
+    'Great. Would a video call this week work for you?',
+    'Thanks for sharing. We will check with our vet and get back to you.'
   ];
 
   function viewChat(id) {
@@ -573,10 +605,10 @@
 
     return el('section', null,
       el('div', { class: 'chat-head' }, avatar(dog), el('div', null, el('h1', null, dog.name), el('span', { class: 'muted small' }, dog.owner + ' · ' + dog.breed))),
-      el('p', { class: 'note' }, 'Never share your home address. Meet only at public dog parks.'),
+      el('p', { class: 'note' }, 'Never share your home address. Share health records and talk with your vet before making any plans.'),
       log, form,
       el('div', { class: 'btn-row' },
-        el('a', { class: 'btn btn-accent', href: '#/meetup/' + id }, 'Plan a meetup'),
+        el('a', { class: 'btn btn-accent', href: '#/meetup/' + id }, 'Plan a first meeting'),
         el('button', { type: 'button', class: 'btn btn-quiet', onclick: function () {
           if (window.confirm('Report this conversation? (Mockup: nothing is sent.)')) say('Reported. A moderator would review this.');
         } }, 'Report'),
@@ -590,7 +622,7 @@
         } }, 'Block')));
   }
 
-  /* ---------- Meetup planner ---------- */
+  /* ---------- First-meeting planner ---------- */
   function localDate(offsetDays) {
     var d = new Date();
     d.setDate(d.getDate() + offsetDays);
@@ -603,40 +635,43 @@
     var dog = findDog(id);
     if (!dog || !hasMatch(id)) { go('matches'); return el('section'); }
 
-    var me = state.me;
-    var blockedMsg = null;
-    if (M.stageOf(me.age) === 'puppy' && !me.vaccinated) blockedMsg = me.name + ' can join park meetups once the vaccine series is complete.';
-    else if (me.inHeat) blockedMsg = me.name + ' is marked as in heat, so meetups are paused. You can change this on the My dog page.';
-
     var error = el('p', { class: 'error', role: 'alert', hidden: true });
-    var parkSel = el('select', { id: 'm-park', required: true },
-      el('option', { value: '' }, 'Choose a park'),
-      D.parks.map(function (p) { return el('option', { value: p.id }, p.name); }));
+    var kind = el('select', { id: 'm-kind', required: true },
+      O.meet.map(function (o) { return el('option', { value: o.v }, o.l); }));
+    var place = el('select', { id: 'm-place' },
+      el('option', { value: '' }, 'Choose a public place'),
+      D.places.map(function (p) { return el('option', { value: p.id }, p.name); }));
+    var placeField = el('div', { class: 'field', hidden: true }, el('label', { class: 'lbl', for: 'm-place' }, 'Public place'), place,
+      el('p', { class: 'help' }, 'Sample list only. Check each place\'s rules and leash requirements before you go.'));
+    kind.addEventListener('change', function () { placeField.hidden = kind.value === 'video'; });
     var date = el('input', { type: 'date', id: 'm-date', required: true, min: localDate(0), value: localDate(2) });
     var time = el('input', { type: 'time', id: 'm-time', required: true, value: '10:00' });
 
     var form = el('form', { novalidate: true, onsubmit: function (e) {
       e.preventDefault();
-      var park = D.parks.filter(function (p) { return p.id === parkSel.value; })[0];
-      if (!park || !date.value || !time.value) { error.textContent = 'Please choose a park, a date and a time.'; error.hidden = false; return; }
+      var inPerson = kind.value !== 'video';
+      var chosen = D.places.filter(function (p) { return p.id === place.value; })[0];
+      if (inPerson && !chosen) { error.textContent = 'Please choose a public place.'; error.hidden = false; return; }
+      if (!date.value || !time.value) { error.textContent = 'Please choose a date and a time.'; error.hidden = false; return; }
       var when = date.value + 'T' + time.value;
       if (new Date(when).getTime() < Date.now()) { error.textContent = 'Please pick a time in the future.'; error.hidden = false; return; }
       var nice = new Date(when).toLocaleString([], { weekday: 'short', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' });
-      var meetup = { dogId: id, parkName: park.name, when: when, status: 'Proposed' };
+      var meetup = { dogId: id, kind: kind.value, place: chosen ? chosen.name : '', when: when, status: 'Proposed' };
       state.meetups.push(meetup);
-      addMessage(id, 'sys', 'You proposed ' + nice + ' at ' + park.name + '.');
+      addMessage(id, 'sys', 'You proposed: ' + MEET_SHORT[kind.value].toLowerCase() + ', ' + nice + (chosen ? ' at ' + chosen.name : '') + '.');
       save();
       setTimeout(function () {
         meetup.status = 'Accepted';
-        addMessage(id, 'them', 'That works for us! See you at ' + park.name + '.');
+        addMessage(id, 'them', 'That works for us. Talk soon!');
         save();
-        say(dog.owner + ' accepted the meetup.');
+        say(dog.owner + ' accepted the invitation.');
       }, 2500);
       go('chat/' + id);
     } },
       error,
-      el('div', { class: 'field' }, el('label', { class: 'lbl', for: 'm-park' }, 'Dog park'), parkSel,
-        el('p', { class: 'help' }, 'Sample list only. Real parks, hours and rules will come from city data and be checked by hand.')),
+      el('div', { class: 'field' }, el('label', { class: 'lbl', for: 'm-kind' }, 'How would you like to meet?'), kind,
+        el('p', { class: 'help' }, 'We suggest starting with a video call or an owners-only meeting.')),
+      placeField,
       el('div', { class: 'field' }, el('label', { class: 'lbl', for: 'm-date' }, 'Date'), date),
       el('div', { class: 'field' }, el('label', { class: 'lbl', for: 'm-time' }, 'Time'), time),
       el('div', { class: 'btn-row' },
@@ -644,43 +679,44 @@
         el('a', { class: 'btn btn-quiet', href: '#/chat/' + id }, 'Back to chat')));
 
     return el('section', null,
-      el('h1', null, 'Meet up with ' + dog.name),
-      blockedMsg ? el('p', { class: 'note' }, blockedMsg) : form,
+      el('h1', null, 'First meeting with ' + dog.owner),
+      form,
       el('h2', null, 'Before you go'),
       el('ul', null,
-        el('li', null, 'Meet only at a public, designated off-leash dog park.'),
-        el('li', null, 'Keep dogs leashed until you are inside the off-leash area.'),
-        el('li', null, 'Bring water and waste bags. Daytime visits are best.'),
-        el('li', null, 'Do a short, calm introduction. Leave if either dog is stressed.')));
+        el('li', null, 'Meet only in public. Bringing a friend is a good idea.'),
+        el('li', null, 'Keep dogs leashed and under control. Avoid off-leash areas, and take extra care if a female is in or near heat.'),
+        el('li', null, 'Bring your health test results and vaccination records, and ask for theirs.'),
+        el('li', null, 'Talk to your vet first. Any mating is arranged privately between owners and is not part of Pikes Pack.')));
   }
 
   /* ---------- My dog ---------- */
   function viewProfile() {
     var d = state.me;
-    var isIntactFemale = d.sex === 'F' && !d.fixed;
+    var tests = reportedTests(d).map(function (t) { return TEST_SHORT[t]; });
     var rows = [
-      ['Breed', d.breed], ['Size', labelOf('size', d.size).split(' (')[0]], ['Age', labelOf('age', d.age)],
-      ['Sex', labelOf('sex', d.sex)], ['Spayed / neutered', d.fixed ? 'Yes' : 'No (intact)'],
+      ['Breed', d.breed], ['Sex', shortLabel('sex', d.sex)], ['Age', ageText(d.age)], ['Size', shortLabel('size', d.size)],
+      ['Registry', labelOf('registry', d.registry)],
       ['Vaccinated', d.vaccinated ? 'Yes (owner-reported)' : 'Not confirmed'],
-      ['Energy', M.ENERGY[d.energy]],
-      ['Play styles', d.play.map(function (p) { return labelOf('play', p); }).join(', ')],
-      ['Play intensity', M.INTENSITY[d.intensity]],
-      ['Plays well with', d.comfort.map(function (s) { return labelOf('size', s).split(' (')[0]; }).join(', ')],
-      ['Meeting new dogs', labelOf('greeting', d.greeting)], ['Best in', labelOf('group', d.group)],
-      ['Off-leash recall', labelOf('recall', d.recall)], ['Past snapping', labelOf('bite', d.bite)],
-      ['Leash reactive', labelOf('reactive', d.reactive)], ['Guards things', labelOf('guards', d.guards)]
+      ['Health testing', tests.length ? tests.join(', ') : 'None reported'],
+      ['Breeding experience', labelOf('experience', d.experience)],
+      ['Timing', labelOf('ready', d.ready)],
+      ['Energy', M.ENERGY[d.energy]], ['Trainability', labelOf('train', d.train)],
+      ['With other dogs', labelOf('dogs', d.dogs)], ['With children', labelOf('kids', d.kids)],
+      ['With strangers', labelOf('strangers', d.strangers)], ['Fear or anxiety', labelOf('fear', d.fear)],
+      ['Aggression history', labelOf('aggression', d.aggression)],
+      ['Goal', labelOf('purpose', d.purpose)], ['Compensation', labelOf('comp', d.comp)]
     ];
-    if (d.limits) rows.push(['Limits', d.limits]);
+    if (d.healthNotes) rows.push(['Health notes', d.healthNotes]);
 
     return el('section', null,
       el('div', { class: 'chat-head' }, avatar(d), el('div', null, el('h1', null, d.name), el('span', { class: 'muted small' }, d.bio || ''))),
+      d.aggression === 'yes' ? el('p', { class: 'note' }, 'Because of the aggression history you reported, ' + d.name + ' is not shown to other owners.') : null,
       el('dl', { class: 'facts' }, rows.map(function (r) { return [el('dt', null, r[0]), el('dd', null, r[1])]; })),
-      isIntactFemale ? el('div', { class: 'field' },
-        el('label', { for: 'in-heat' },
-          el('input', { type: 'checkbox', id: 'in-heat', checked: !!d.inHeat, onchange: function (e) {
-            state.me.inHeat = e.target.checked; save();
-            say(e.target.checked ? 'Meetups paused while in heat' : 'Meetups available again');
-          } }), ' Currently in heat (pauses meetup scheduling)')) : null,
+      el('div', { class: 'field' },
+        el('label', { class: 'lbl', for: 'ready-sel' }, 'Timing'),
+        el('select', { id: 'ready-sel', onchange: function (e) {
+          state.me.ready = e.target.value; save(); say('Timing updated');
+        } }, O.ready.map(function (o) { return el('option', { value: o.v, selected: d.ready === o.v }, o.l); }))),
       el('div', { class: 'btn-row' },
         el('a', { class: 'btn btn-primary', href: '#/setup' }, 'Edit profile'),
         el('button', { type: 'button', class: 'btn btn-quiet', onclick: function () {
@@ -695,22 +731,24 @@
     return el('section', null,
       el('h1', null, 'Safety and community rules'),
       el('p', { class: 'muted' }, 'Draft wording for the mockup. A real version should be reviewed before launch.'),
+      el('h2', null, 'What Pikes Pack is'),
+      el('ul', null,
+        el('li', null, 'A way for owners of intact, adult dogs to find compatible dogs and talk. You must be 18 or older.'),
+        el('li', null, 'It does not arrange matings, sell or list dogs or puppies, or handle payments or contracts. Owners agree everything directly.'),
+        el('li', null, 'It is not a dating site for people.')),
+      el('h2', null, 'Responsible breeding'),
+      el('ul', null,
+        el('li', null, 'Talk to your veterinarian and, if you have one, your breed club before breeding. Not every dog should be bred.'),
+        el('li', null, 'Health testing, vaccinations and registry details are owner-reported and not verified. Ask to see records.'),
+        el('li', null, 'Dogs with a history of aggression are not shown. Be honest about temperament, since it can be passed on.'),
+        el('li', null, 'Plan for the whole litter: puppies need homes, vet care and time for years to come.'),
+        el('li', null, 'Colorado\'s Department of Agriculture says people who breed pet animals may need to be licensed under its Pet Animal Care and Facilities Act. Check the rules that apply to you.')),
       el('h2', null, 'Meeting up'),
       el('ul', null,
-        el('li', null, 'Meet only at public, designated off-leash dog parks. Colorado Springs city code requires dogs to be leashed in city parks and on trails except in designated off-leash areas.'),
-        el('li', null, 'Daytime meetups are best, and you can bring a friend.'),
+        el('li', null, 'Start with a video call or an owners-only meeting in a public place.'),
         el('li', null, 'Never share your home address. We only show an approximate area.'),
-        el('li', null, 'Leave if either dog seems stressed. You can always say no.')),
-      el('h2', null, 'Dogs'),
-      el('ul', null,
-        el('li', null, 'Vaccination and spay/neuter answers come from owners and are not verified.'),
-        el('li', null, 'Be honest about snapping, leash reactivity and guarding. Dogs with a snapping history are hidden from most owners.'),
-        el('li', null, 'Puppies appear once their vaccine series is complete. Female dogs in heat pause meetups.')),
-      el('h2', null, 'Community'),
-      el('ul', null,
-        el('li', null, 'You must be 18 or older.'),
-        el('li', null, 'This app is for dog playdates. It does not support breeding or selling animals, and it is not a dating site for people.'),
-        el('li', null, 'Report or block anyone who makes you uncomfortable. A moderator reviews reports.')));
+        el('li', null, 'Keep dogs leashed at first meetings, and avoid off-leash areas, especially if a female may be in heat.'),
+        el('li', null, 'You can always say no. Report or block anyone who makes you uncomfortable. A moderator reviews reports.')));
   }
 
   /* ---------- Start ---------- */
