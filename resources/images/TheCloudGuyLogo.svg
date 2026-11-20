@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="500" height="500" viewBox="0 0 500 500">
+  <defs>
+    <linearGradient id="front" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4A90D9"/><stop offset="1" stop-color="#1E3A5F"/></linearGradient>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#EEF4FA"/></linearGradient>
+    <path id="cloud" d="M120 340 C62 340 30 300 30 258 C30 216 64 184 106 184 C112 130 160 92 214 98 C240 56 306 52 344 90 C358 104 366 118 370 134 C426 132 470 170 470 232 C470 294 428 340 372 340 Z"/>
+  </defs>
+  <rect width="500" height="500" fill="url(#bg)"/>
+  <rect x="10" y="10" width="480" height="480" fill="none" stroke="#1E3A5F" stroke-width="6"/>
+  <g transform="translate(250 205) scale(0.84) translate(-250 -200)">
+    <use href="#cloud" fill="#7AB3E8" transform="translate(-14 -16)"/>
+    <use href="#cloud" fill="url(#front)"/>
+    <g fill="none" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M222 312 L250 182 L278 312" stroke-width="9"/>
+      <path d="M237.5 240 H262.5 M229 280 H271 M237.5 240 L271 280 M262.5 240 L229 280" stroke-width="6"/>
+      <path d="M273.6 151.5 A30 30 0 0 1 273.6 188.5 M226.4 151.5 A30 30 0 0 0 226.4 188.5" stroke-width="9"/>
+      <path d="M292.6 136.7 A54 54 0 0 1 292.6 203.3 M207.4 136.7 A54 54 0 0 0 207.4 203.3" stroke-width="9"/>
+      <path d="M311.5 122 A78 78 0 0 1 311.5 218 M188.5 122 A78 78 0 0 0 188.5 218" stroke-width="9"/>
+    </g>
+    <circle cx="250" cy="170" r="13" fill="#FFFFFF"/>
+  </g>
+  <text x="250" y="408" text-anchor="middle" font-family="Avenir Next, Helvetica Neue, Arial, sans-serif" font-weight="700" font-size="52" fill="#1E3A5F" letter-spacing="1">The Cloud Guy</text>
+  <text x="250" y="446" text-anchor="middle" font-family="Avenir Next, Helvetica Neue, Arial, sans-serif" font-weight="600" font-size="18" fill="#3D6B99" letter-spacing="6">ESTABLISHED 2017</text>
+</svg>
